@@ -19,6 +19,12 @@ import PostDetails from './components/qr-scan/PostDetails';
 import OnRouteUpdate from './components/qr-scan/OnRouteUpdate';
 import LogTableParcel from './components/parcels-log/LogTableParcel';
 import ParcelLog from './components/parcels-log/ParcelLog';
+import CreateAddress from './components/admin/address/CreateAddress';
+import AddressLog from './components/admin/address/AddressLog';
+import CreatePostalArea from './components/admin/postal-area/CreatePostalArea';
+import PostalAreaLog from './components/admin/postal-area/PostalAreaLog';
+import CreatePostalAccount from './components/admin/postal-area/CreatePostalAccount';
+import Example from './components/test/Example';
 
 class App extends Component{
 
@@ -75,6 +81,21 @@ class App extends Component{
                         <Route path="/parcel-post">
                             <Parcel />
                         </Route>
+                        <Route path="/address">
+                            <CreateAddress />
+                        </Route>
+                        <Route path="/address-log">
+                            <AddressLog />
+                        </Route>
+                        <Route path="/postal-area">
+                            <CreatePostalArea />
+                        </Route>
+                        <Route path="/postal-area-log">
+                            <PostalAreaLog />
+                        </Route>
+                        <Route path="/postal-account">
+                            <CreatePostalAccount />
+                        </Route>
                     </Switch>                   
                     
                     <Footer/>
@@ -100,6 +121,14 @@ class App extends Component{
 
             // <LogTableParcel />
             // <ParcelLog />
+
+            // <CreateAddress />
+            // <AddressLog />
+            // <CreatePostalArea />
+            // <PostalAreaLog />
+            // <CreatePostalAccount />
+            
+            // <Example />
         );
     }
 }

@@ -125,7 +125,9 @@ class AddressFormNP extends Component{
                             onBlur={this.validate}
                             className="form-control" 
                             placeholder="Enter house number ex:123/A"
-                            pattern = '^[A-Za-z0-9,-/\\]+$'
+                            minLength="1"
+                            maxLength="50"
+                            pattern = '^(?=.*[A-Za-z0-9])[A-Za-z\d\-/,\\]{1,50}$'                            
                             required
                         />
                     </div>

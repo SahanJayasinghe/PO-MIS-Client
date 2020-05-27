@@ -89,7 +89,9 @@ class AddressFormParcel extends Component {
                             onChange={this.handleInput}                                
                             className="form-control" 
                             placeholder="Enter Reciever's Name"
-                            pattern = '^[A-Za-z.\s]+$'
+                            minLength="1"
+                            maxLength="50"
+                            pattern = '^(?=.*[A-Za-z])[A-Za-z\-,.\s]{1,50}$'
                             required
                         />
                     </div>
@@ -104,7 +106,9 @@ class AddressFormParcel extends Component {
                             onChange={this.handleInput}                            
                             className="form-control" 
                             placeholder="Enter house number ex:123/A"
-                            pattern = '^[A-Za-z0-9,-/\\]+$'
+                            minLength="1"
+                            maxLength="50"
+                            pattern = '^(?=.*[A-Za-z0-9])[A-Za-z\d\-/,\\]{1,50}$'
                             required
                         />
                     </div>
@@ -173,7 +177,9 @@ class AddressFormParcel extends Component {
                             value={descript} 
                             onChange={this.handleInput}                            
                             className="form-control" 
-                            placeholder="any notes..."                            
+                            placeholder="any notes..." 
+                            minLength="1"
+                            maxLength="1024"                           
                         />
                     </div>
                 </div>                    

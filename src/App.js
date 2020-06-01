@@ -9,14 +9,14 @@ import NormalPost from './components/normal-post-create/NormalPost';
 import AddressFormNP from './components/normal-post-create/AddressFormNP';
 import QRCode from './components/QRCode';
 import RegisteredPost from './components/registered-post-create/RegisteredPost';
-import LogTable from './components/registered-posts-log/LogTable';
+import LogTable from './components/LogTable';
 import ReceivedRPLog from './components/registered-posts-log/ReceivedRPLog';
 import RPLog from './components/registered-posts-log/RPLog';
 import Parcel from './components/parcel-post-create/Parcel';
 import QRUpload from './components/qr-scan/QRUpload';
 import QRScan from './components/qr-scan/QRScan';
 import PostDetails from './components/qr-scan/PostDetails';
-import OnRouteUpdate from './components/qr-scan/OnRouteUpdate';
+import PostUpdatePage from './components/qr-scan/PostUpdatePage';
 import LogTableParcel from './components/parcels-log/LogTableParcel';
 import ParcelLog from './components/parcels-log/ParcelLog';
 import CreateAddress from './components/admin/address/CreateAddress';
@@ -25,6 +25,12 @@ import CreatePostalArea from './components/admin/postal-area/CreatePostalArea';
 import PostalAreaLog from './components/admin/postal-area/PostalAreaLog';
 import CreatePostalAccount from './components/admin/postal-area/CreatePostalAccount';
 import Example from './components/test/Example';
+import ResidentForm from './components/resident/ResidentForm';
+import ResidentRPLog from './components/resident/ResidentRPLog';
+import ResidentParcelLog from './components/resident/ResidentParcelLog';
+import ResidentNPLog from './components/resident/ResidentNPLog';
+import ResidentPage from './components/resident/ResidentPage';
+import NotFoundPage from './components/NotFoundPage';
 
 class App extends Component{
 
@@ -66,7 +72,7 @@ class App extends Component{
                             <Body />
                         </Route>
                         <Route path="/qr-scan">
-                            <OnRouteUpdate />
+                            <PostUpdatePage />
                         </Route>
                         <Route path="/reg-post-log">
                             <RPLog />
@@ -96,6 +102,14 @@ class App extends Component{
                         <Route path="/postal-account">
                             <CreatePostalAccount />
                         </Route>
+                        {
+                            ( !localStorage.getItem('user_type'))
+                            ? <Route path="/resident">
+                                <ResidentPage />
+                            </Route>
+                            : <></>
+                        }
+                        <Route component={NotFoundPage} />
                     </Switch>                   
                     
                     <Footer/>
@@ -117,7 +131,7 @@ class App extends Component{
             // <QRUpload />
             // <QRScan />
             // <PostDetails />
-            // <OnRouteUpdate />
+            // <PostUpdatePage />
 
             // <LogTableParcel />
             // <ParcelLog />
@@ -128,6 +142,11 @@ class App extends Component{
             // <PostalAreaLog />
             // <CreatePostalAccount />
             
+            // <ResidentForm />
+            // <ResidentRPLog />
+            // <ResidentParcelLog />
+            // <ResidentNPLog />
+            // <ResidentPage />
             // <Example />
         );
     }

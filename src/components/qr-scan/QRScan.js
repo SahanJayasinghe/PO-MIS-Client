@@ -39,22 +39,29 @@ class QRScan extends Component {
                 btnName: 'Scan QR Code',
                 result: data
             });
-
+            console.log(`QR Content: ${data}`);
             let qr_content = data.split('_');
-            if(qr_content === undefined){
-                this.props.getScanResults(null, null, false);
+            if(qr_content.length === 1){
+                this.props.getScanResults(null, null);
                 alert('Invalid QR Code');
             }            
             else{
-                let content1 = qr_content[0].split('=');
-                let content2 = qr_content[1].split('=');
-                if(content1[0] === 'type' && content2[0] === 'id'){
-                    let type = content1[1];
-                    let id = content2[1];
-                    this.props.getScanResults(type, id, true);
+                let type_content = qr_content[0].split('=');
+                let id_content = qr_content[1].split('=');
+                if(type_content.length === 2 && id_content.length === 2 && type_content[0] === 'type' && id_content[0] === 'id'){
+                    let type = type_content[1];
+                    let id = id_content[1];
+                    if (['NormalPost', 'RegPost', 'Parcel'].includes(type)){
+                        this.props.getScanResults(type, id);
+                    }
+                    else{
+                        this.props.getScanResults(null, null);
+                        alert('Invalid QR Code');
+                    }
+                    
                 }
                 else{
-                    this.props.getScanResults(null, null, false);
+                    this.props.getScanResults(null, null);
                     alert('Invalid QR Code');
                 }                
             }
@@ -109,7 +116,9 @@ class QRScan extends Component {
                     />
                     <p>{this.state.result}</p>
                 </div> */}
-                <p className="text-center">{this.state.result}</p>
+                {/* <div className="row justify-content-center mt-3">
+                    <p className="d-flex text-center">{this.state.result}</p>
+                </div> */}
             </div>                
         )
     }

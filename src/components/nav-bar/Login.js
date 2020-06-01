@@ -43,6 +43,12 @@ class Login extends Component {
                 localStorage.setItem('user_type', 'post_office');
                 localStorage.setItem('user_id', this.state.postal_code);
                 localStorage.setItem('postal_area', res.data.postal_area);
+                this.setState({
+                    postal_code: '',
+                    post_office_pw: '',
+                    username: '',
+                    admin_pw: ''
+                });
                 this.props.toggle();
                 this.props.handleLogin('post_office', this.state.postal_code);
             })
@@ -71,6 +77,12 @@ class Login extends Component {
                 localStorage.setItem('user_type', 'admin');
                 // localStorage.setItem('user_id', this.state.postal_code);
                 localStorage.setItem('user_id', res.data.username);
+                this.setState({
+                    postal_code: '',
+                    post_office_pw: '',
+                    username: '',
+                    admin_pw: ''
+                });
                 this.props.toggle();
                 this.props.handleLogin('admin', res.data.username);
             })
@@ -115,7 +127,7 @@ class Login extends Component {
                                         <input type="text" name="postal_code" 
                                             value={postal_code} onChange={this.handleInput} 
                                             className="form-control validate" placeholder="Enter Code..." 
-                                            required
+                                            minLength="1" maxLength="25" required
                                         />								
                                     </div>
                                     <div className="col-md-10 mb-3">
@@ -124,7 +136,7 @@ class Login extends Component {
                                         <input type="password" name="post_office_pw"
                                             value={post_office_pw} onChange={this.handleInput}
                                             className="form-control validate" placeholder="Enter Password..."
-                                            required
+                                            minLength="1" maxLength="25" required                                
                                         />
                                         {/* <i className="icon-eye"></i> */}
                                     </div>
@@ -148,7 +160,7 @@ class Login extends Component {
                                         <input type="text" name="username" 
                                             value={username} onChange={this.handleInput} 
                                             className="form-control validate" placeholder="Enter Username..." 
-                                            required
+                                            minLength="1" maxLength="50" required
                                         />								
                                     </div>
                                     <div className="col-md-10 mb-3">
@@ -157,7 +169,7 @@ class Login extends Component {
                                         <input type="password" name="admin_pw"
                                             value={admin_pw} onChange={this.handleInput} 
                                             className="form-control validate" placeholder="Enter Password..." 
-                                            required
+                                            minLength="1" maxLength="25" required
                                         />
                                         {/* <i className="icon-eye"></i> */}
                                     </div>

@@ -255,7 +255,7 @@ class AddressFormRP extends Component {
                             </div>
                         </div>
                         <div className="col-md-4">
-                            <div className="form-group">
+                            <div className="form-group mt-4">
                                 <div className="row justify-content-center">
                                     <div className="custom-control custom-checkbox checkbox-xl">                               
                                         <input 

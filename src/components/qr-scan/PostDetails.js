@@ -40,13 +40,17 @@ class PostDetails extends Component {
         }
     }
 
+    get_route = (type) => {
+        let route;
+        if(type === 'NormalPost') {route = `normal-post`}
+        else if(type === 'RegPost') {route = `registered-post`}
+        else if(type === 'Parcel') {route = `parcel-post`}
+        return route;
+    }
+
     loadPostDetails = (type, id) => {
-        axios({
-            method: 'post',
-            url: 'http://localhost:5000/qr-read/post-details',
-            data: {type, id},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
-        })
+        let route = this.get_route(type);
+        axios.get(`http://localhost:5000/${route}/${id}`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})          
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -62,12 +66,14 @@ class PostDetails extends Component {
             })
     }
 
-    handleClick = (event) => {
-        let postal_code = localStorage.getItem('user_id');
+    handleUpdate = (event) => {
+        let post_office = localStorage.getItem('user_id');
+        let {id, type} = this.state;
+        let route = this.get_route(type);       
         axios({
             method: 'put',
-            url: 'http://localhost:5000/qr-read',
-            data: {type: this.state.type, id: this.state.id, post_office: postal_code},
+            url: `http://localhost:5000/${route}/location-update`,
+            data: {id, post_office},
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
             .then(res => {
@@ -83,51 +89,116 @@ class PostDetails extends Component {
             })
             .catch(err => {
                 console.log(err);                
-                this.props.handleRequestError(err); 
+                handleRequestError(err); 
             })
+    }
+
+    handleReturn = (event) => {
+        let post_office = localStorage.getItem('user_id');
+        let {id, type} = this.state;
+        if(type === 'RegPost') {        
+            axios({
+                method: 'put',
+                url: `http://localhost:5000/registered-post/send-back`,
+                data: {id, post_office},
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            })
+                .then(res => {
+                    console.log(res);
+                    let new_details = this.state.post_details;
+                    new_details.status = res.data.status;
+                    new_details.last_update = res.data.last_update;
+                    this.setState({
+                        post_details: new_details
+                    });
+                })
+                .catch(err => {
+                    console.log(err);                
+                    handleRequestError(err); 
+                })
+        }
+    }
+
+    handleDiscard = (event) => {
+        
     }
     
     render() {
         console.log('PostDetails Render');
         console.log(this.state);
-        if(this.state.post_details){
 
+        if(this.state.post_details){
+            let post_office = localStorage.getItem('user_id');
             let post_type = null;
             if (this.state.type === 'RegPost') { post_type = 'Registered Post'; }
             else if (this.state.type === 'Parcel') { post_type = 'Parcel Post' }
             else if (this.state.type === 'NormalPost') { post_type = 'Normal Post' }
 
-            let {receiver, sender, speed_post} = this.state.post_details;
-            let {status, posted_on, last_location, last_update} = this.state.post_details;
-
+            let {receiver, sender, speed_post, status} = this.state.post_details;
+            let {posted_on, last_location, last_update, attempts_receiver, attempts_sender} = this.state.post_details;
+            
             let details;
             let should_update;
+            let should_return;
+            let should_discard;
+
             if(this.state.type === 'NormalPost'){
                 details = <></>;
                 should_update = false;
+                should_return = false;
+                should_discard = (receiver[receiver.length - 1] === post_office);
             }
-            else {
-                details = <div className="cart-detail p-3 p-md-3">
-                            <span className="d-flex"> Delivery Status <span className="font-weight-bold"> {`: ${status[1]}`} </span> </span>
-                            <span className="d-flex"> Last Updated At <span className="font-weight-bold">  {`: ${last_update}`} {last_location} </span> </span>
-                            <span className="d-flex"> Posted On <span className="font-weight-bold"> {`: ${posted_on}`} </span> </span>
-                        </div>;
+
+            else if(this.state.type === 'RegPost'){
+                details = <div className="row cart-detail p-3 p-md-3 ml-4">
+                    <span className="d-flex"> Delivery Status :<span className="font-weight-bold ml-2"> {status[1]} </span> </span>
+                    <span className="d-flex"> Last Updated At :<span className="font-weight-bold ml-2"> {`${last_update}  ${last_location}`} </span> </span>
+                    { (status[0] !== 'on-route-receiver')
+                        ? <span className="d-flex"> # Delivery Attempts to Receiver :<span className="font-weight-bold ml-2"> {attempts_receiver} </span> </span>
+                        : <></>
+                    }
+                    { ( ['sender-unavailable', 'sent-back', 'failed'].includes(status[0]) )
+                        ? <span className="d-flex"> # Delivery Attempts to Sender :<span className="font-weight-bold ml-2"> ${attempts_sender} </span> </span>
+                        : <></>
+                    }
+                    <span className="d-flex"> Posted At :<span className="font-weight-bold ml-2"> {posted_on} </span> </span>
+                </div>;
                 
-                let status_check = (['on-route-receiver', 'on-route-sender'].includes(status[0]));            
-                let post_office = localStorage.getItem('user_id');
+                let status_check = (['on-route-receiver', 'on-route-sender'].includes(status[0]));                
                 let post_office_check = (last_location.split(',')[1] !== post_office);
                 should_update = (status_check && post_office_check);
+                should_return = (status[0] === 'receiver-unavailable' && attempts_receiver > 0 && receiver[receiver.length - 1] === post_office);
+                should_discard = (status[0] === 'sender-unavailable' && attempts_sender > 0 && sender[sender.length - 1] === post_office);
+            }
+
+            else{
+                let {posted_location} = this.state.post_details;
+                details = <div className="row cart-detail p-3 p-md-3 ml-4">
+                    <span className="d-flex"> Delivery Status :<span className="font-weight-bold ml-2"> {status[1]} </span> </span>
+                    <span className="d-flex"> Last Updated At :<span className="font-weight-bold ml-2">  {`${last_update}  ${last_location}`} </span> </span>
+                    { (status[0] !== 'on-route-receiver')
+                        ? <span className="d-flex"> # Delivery Attempts :<span className="font-weight-bold ml-2"> {attempts_receiver} </span> </span>
+                        : <></>
+                    }                    
+                    <span className="d-flex"> Posted At :<span className="font-weight-bold ml-2"> {`${posted_on}  ${posted_location}`} </span> </span>
+                </div>;
+
+                let post_office_check = (last_location.split(',')[1] !== post_office);
+                should_update = (status[0] === 'on-route-receiver' && post_office_check);
+                should_return = false;
+                should_discard = (status[0] === 'receiver-unavailable' && attempts_receiver > 0 && receiver[receiver.length - 1] === post_office);
             }
             
             return (
                 <div className="col-md-8">
-                    <div className="d-flex row justify-content-center">
-                    <h3 className="billing-heading mb-3 d-inline-block">{post_type}</h3>
-                    {
-                        (speed_post)
-                        ? <span className="align-top badge badge-pill badge-danger"> Speed Post </span>
-                        : <></>
-                    }
+                    <div className="row justify-content-center">
+                        <h3 className="billing-heading mb-3 d-inline-block">{post_type}
+                        {
+                            (speed_post)
+                            ? <span className="align-top badge badge-pill font-weight-lighter badge-danger ml-2"> Speed Post </span>
+                            : <></>
+                        }
+                        </h3>
                     </div>                     
                     {details}
                     <div className="row mt-3 pt-2">                                       
@@ -165,7 +236,33 @@ class PostDetails extends Component {
                                     <div className="row justify-content-center">
                                         <div className="col-md-8">
                                             <div className="cart-detail p-3 p-md-3">
-                                                <p><button onClick={this.handleClick} className="btn btn-primary py-3 px-4">Update Location</button></p>
+                                                <p><button onClick={this.handleUpdate} className="btn btn-primary py-3 px-4">Update Location</button></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                : <></>
+                        }
+                        {
+                            (should_return) ?
+                                <div className="col-md-12">
+                                    <div className="row justify-content-center">
+                                        <div className="col-md-8">
+                                            <div className="cart-detail p-3 p-md-3">
+                                                <p><button onClick={this.handleReturn} className="btn btn-primary py-3 px-4">Return to Sender</button></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                : <></>
+                        }
+                        {
+                            (should_discard) ?
+                                <div className="col-md-12">
+                                    <div className="row justify-content-center">
+                                        <div className="col-md-8">
+                                            <div className="cart-detail p-3 p-md-3">
+                                                <p><button onClick={this.handleDiscard} className="btn btn-primary py-3 px-4">Discard</button></p>
                                             </div>
                                         </div>
                                     </div>

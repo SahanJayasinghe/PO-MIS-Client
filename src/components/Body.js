@@ -59,7 +59,8 @@ function Body(){
 												<p><Link to='/normal-post' className="btn btn-primary py-2 px-4">Normal Post</Link></p>
 												<p><Link to='/registered-post' className="btn btn-primary py-2 px-4">Registered Post</Link></p>
 												<p><Link to='/parcel-post' className="btn btn-primary py-2 px-4">Parcel Delivery</Link></p>
-												<p><a href="morder.html" className="btn btn-primary py-2 px-4">Money Order</a></p>
+												<p><Link to='/money-order' className="btn btn-primary py-2 px-4">Money Order</Link></p>
+												{/* <p><a href="morder.html" className="btn btn-primary py-2 px-4">Money Order</a></p> */}
 											</div>
 											{
 												(!localStorage.getItem('user_type'))
@@ -96,7 +97,7 @@ function Body(){
 							</div>
 							<div className="category-wrap  img d-flex align-items-end" style={moneyord}>
 								<div className="text px-3 py-1">
-									<h2 className="mb-0"><a href="/#">Money Order</a></h2>
+									<h2 className="mb-0"><Link to='/money-order' className="py-2 px-4">Money Order</Link></h2>
 								</div>
 							</div>
 						</div>

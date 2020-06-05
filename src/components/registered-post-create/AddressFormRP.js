@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../checkboxstyle.css'
+import '../../custom_styles/checkboxstyle.css'
 import {handleRequestError} from '../../helpers/error_handler';
 const axios = require('axios');
 
@@ -77,7 +77,7 @@ class AddressFormRP extends Component {
             method: 'post',
             url: 'http://localhost:5000/registered-post/address',
             data: post_obj,
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);                

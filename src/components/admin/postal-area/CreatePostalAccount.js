@@ -43,7 +43,7 @@ class CreatePostalAccount extends Component {
             method: 'put',
             url: `http://localhost:5000/post-offices`,
             data: {code: postal_code, password},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);

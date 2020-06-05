@@ -51,7 +51,7 @@ class ConfirmRP extends Component {
             method: 'post',
             url: 'http://localhost:5000/registered-post',
             data: post_obj,
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);                

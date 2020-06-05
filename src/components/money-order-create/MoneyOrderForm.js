@@ -2,21 +2,21 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
 
-class AddressFormParcel extends Component {
-
+class MoneyOrderForm extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
+            sender_name: '',
+            order_amount: '',
             receiver_name: '',
-            house_number: '',
-            postal_area: 'sel_default',
-            payment: '',
-            descript: '',
-            area_list: []
+            receiver_postal_code: 'sel_default',
+            price: '',
+            expire_after: '',
+            area_list: [{code: '10400', name: 'moratuwa'}, {code: '11160', name: 'kal-eliya'}]
         }
     }
-    
+
     componentDidMount(){
         axios.get('http://localhost:5000/postal-areas', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
@@ -39,135 +39,158 @@ class AddressFormParcel extends Component {
 
     addDecimals = (event) => {
         event.target.value = parseFloat(event.target.value).toFixed(2);
-        // console.log(this.state.payment);
+        // console.log(typeof this.state.price);
         this.setState(
             {
-            payment: event.target.value
-            }, 
-            () => {
-                console.log(`callback fn... ${this.state.payment}`);
-            }
+                [event.target.name]: event.target.value
+            }            
         );
     }
 
     handleSubmit = (event) => {
+        console.log(this.state);
         event.preventDefault();
-
+        let {sender_name, receiver_name, receiver_postal_code, order_amount, expire_after, price} = this.state;
+        let posted_location = localStorage.getItem('user_id');
         let post_obj = {
-            number: this.state.house_number,
-            postal_area: this.state.postal_area
+            sender_name, receiver_name, receiver_postal_code,
+            amount: order_amount, price, expire_after, posted_location
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/parcel-post/address',
+            url: 'http://localhost:5000/money-order',
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);                    
-                this.props.loadConfirmation(res.data, this.state.receiver_name, this.state.payment, this.state.descript);               
+                this.props.loadDetails(res.data);              
             })
             .catch(err => {
                 console.log(err);                    
-                this.props.loadConfirmation();
+                this.props.loadDetails(null);
                 handleRequestError(err);
             })
     }
-
+    
     render() {
-        const {receiver_name, house_number, postal_area, payment, descript, area_list} = this.state;
+        let {sender_name, order_amount, receiver_name, receiver_postal_code, expire_after, price, area_list} = this.state;
         return (
             <form onSubmit={this.handleSubmit} className="billing-form">
-                <h3 className="mb-4 billing-heading">Fill in Parcel Details</h3>                
-                <div className="row justify-content-between">
+                <h3 className="mb-4 billing-heading">Fill in Money Order Details</h3>
+                <div className="row justify-content-around">
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label htmlFor="postcodezip">Receiver Name</label>
+                            <label htmlFor="postcodezip">Sender's Name</label>
                             <input 
                                 type="text" 
-                                name="receiver_name"
-                                value={receiver_name} 
+                                name="sender_name"
+                                value={sender_name} 
                                 onChange={this.handleInput}                                
                                 className="form-control" 
-                                placeholder="Enter Reciever's Name"
+                                placeholder="Enter full name or with initials"
                                 minLength="1"
                                 maxLength="50"
                                 pattern = '^(?=.*[A-Za-z])[A-Za-z\-,.\s]{1,50}$'
                                 required
                             />
                         </div>
-                    </div>						
+                    </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label htmlFor="postcodezip">House Number</label>
+                            <label htmlFor="postcodezip">Money Order Amount</label>
                             <input 
-                                type="text" 
-                                name="house_number"
-                                value={house_number} 
-                                onChange={this.handleInput}                            
+                                type="number" 
+                                name="order_amount"
+                                value={order_amount} 
+                                onChange={this.handleInput}
+                                onBlur={this.addDecimals}                          
+                                min="1"
+                                step="0.01"
+                                max="5000"
                                 className="form-control" 
-                                placeholder="Enter house number ex:123/A"
-                                minLength="1"
-                                maxLength="50"
-                                pattern = '^(?=.*[A-Za-z0-9])[A-Za-z\d\-/,\\]{1,50}$'
+                                placeholder="Enter amount ex: 1825.50"
                                 required
                             />
                         </div>
                     </div>
-                </div>                                
-                {/* <div className="w-100"></div> */}                
-                <div className="row justify-content-between">
+                </div>
+                <div className="row justify-content-around">
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label htmlFor="country">Postal Area</label>
-                            <div className="select-wrap">
-                                <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                <select 
-                                    name="postal_area"                                 
-                                    value={postal_area} 
-                                    onChange={this.handleInput}
-                                    title="Choose a Postal Area" 
-                                    className="form-control"
-                                    required
-                                    // dataWidth="auto" 
-                                    // dataLiveSearch="true"
-                                >
-                                    <option value="sel_default" disabled>Select a postal area</option>
-                                    {
-                                        area_list.map(area => (
-                                            <option 
-                                                key={area.code} 
-                                                value={`${area.name},${area.code}`}>
-                                                {area.name}, {area.code}
-                                            </option>
-                                            )
-                                        )
-                                    }
-                                    {/* <option value="10400">Moratuwa,10400</option>
-                                    <option value="11160">Kal-eliya,11160</option>
-                                    <option value="20400">Peradeniya,20400</option>
-                                    <option value="80000">Galle,80000</option>
-                                    <option value="82000">Matara,82000</option>
-                                    <option value="01000">Maradana,01000</option> */}
-                                </select>
-                            </div>
+                            <label htmlFor="postcodezip">Receiver's Name</label>
+                            <input 
+                                type="text" 
+                                name="receiver_name"
+                                value={receiver_name} 
+                                onChange={this.handleInput}                                
+                                className="form-control" 
+                                placeholder="Enter full name or with initials"
+                                minLength="1"
+                                maxLength="50"
+                                pattern = '^(?=.*[A-Za-z])[A-Za-z\-,.\s]{1,50}$'
+                                required
+                            />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label htmlFor="postcodezip">Parcel Payment</label>
+                            <label htmlFor="country">Receiver's Postal Area</label>
+                            <div className="select-wrap">
+                                <div className="icon"><span className="ion-ios-arrow-down"></span></div>
+                                <select 
+                                    name="receiver_postal_code" 
+                                    value={receiver_postal_code} 
+                                    onChange={this.handleInput}
+                                    title="Choose a Postal Area" 
+                                    className="form-control"
+                                    required
+                                >
+                                    <option value="sel_default" disabled>Select a postal area</option>
+                                    {
+                                        area_list.map(area => (
+                                            <option key={area.code} value={area.code}>                                                
+                                                {area.name}, {area.code}
+                                            </option>
+                                            )
+                                        )
+                                    }                                        
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row justify-content-around">
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label htmlFor="postcodezip">Price</label>
                             <input 
                                 type="number" 
-                                name="payment"
-                                value={payment} 
+                                name="price"
+                                value={price} 
                                 onChange={this.handleInput}
                                 onBlur={this.addDecimals}                          
                                 min="0"
                                 step="0.01"
                                 max="1000"
                                 className="form-control" 
-                                placeholder="Enter amount ex: 16.50"
-                                // pattern = '^[0-9]\d*(?:\.\d{2})?$'
+                                placeholder="Enter price ex: 70.50"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label htmlFor="postcodezip">Expire After <span className="text-info">(No. of Months, Maximum 24)</span> </label>
+                            <input 
+                                type="number" 
+                                name="expire_after"
+                                value={expire_after} 
+                                onChange={this.handleInput}                                
+                                className="form-control" 
+                                placeholder="Enter the No. of months"
+                                min="1"
+                                max="24"
                                 required
                             />
                         </div>
@@ -175,31 +198,10 @@ class AddressFormParcel extends Component {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-md-8">
-                        <div className="form-group">
-                            <label htmlFor="postcodezip">Parcel Description</label>
-                            <textarea
-                                name="descript"
-                                value={descript} 
-                                onChange={this.handleInput}                            
-                                className="form-control" 
-                                placeholder="any notes..." 
-                                minLength="1"
-                                maxLength="1024"                           
-                            />
-                        </div>
-                    </div> 
-                </div>                   
-                {/* <div className="w-100"></div> */}
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="form-group mt-4">
-                            <div className="row">
-                                {/* <div className="col-md-7"> */}
-                                    <div className="cart-detail p-3 p-md-3">
-                                        <p><button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button></p>
-                                    {/* </div> */}
-                                </div>
-                            </div>	
+                        <div className="form-group mt-4 cart-detail p-3 p-md-3">                                                
+                            {/* <div className="cart-detail p-3 p-md-3"> */}
+                                <button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button>
+                            {/* </div> */}     
                         </div>
                     </div>
                 </div>
@@ -208,4 +210,4 @@ class AddressFormParcel extends Component {
     }
 }
 
-export default AddressFormParcel
+export default MoneyOrderForm

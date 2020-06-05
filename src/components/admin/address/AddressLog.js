@@ -37,7 +37,7 @@ class AddressLog extends Component {
             method: 'post',
             url: 'http://localhost:5000/addresses/area',
             data: {postal_area},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);
@@ -92,9 +92,9 @@ class AddressLog extends Component {
 
             return (
                 <>
-                <section className="ftco-section ftco-cart">
+                <section className="ftco-section">
                     <div className="container">
-                        <div className="row justify-content-center">
+                        <div className="row justify-content-center ftco-cart">
                             <div className="col-md-4">
                                 <div className="form-group">
                                     <div className="text-center">View Addresses of Postal Area</div>
@@ -144,7 +144,7 @@ class AddressLog extends Component {
                                             {
                                                 address_arr.map( (address, idx) => (
                                                     <tr key={address[0]} className="text-center">                                                        
-                                                        <td><button className="btn btn-info py-1 px-4" onClick={this.handleEdit} value={idx}>Edit</button></td>
+                                                        <td><button className="btn btn-sm btn-info py-2 px-4" onClick={this.handleEdit} value={idx}>Edit</button></td>
                                                         {                                        
                                                             address.slice(1).map( (el, idx) => (
                                                                 <td key={idx} className='product-name'>{el}</td>                                            

@@ -29,7 +29,7 @@ class CreatePostalArea extends Component {
             method: 'post',
             url: 'http://localhost:5000/postal-areas',
             data: post_obj,
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);

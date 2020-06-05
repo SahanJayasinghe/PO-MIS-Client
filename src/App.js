@@ -31,6 +31,12 @@ import ResidentParcelLog from './components/resident/ResidentParcelLog';
 import ResidentNPLog from './components/resident/ResidentNPLog';
 import ResidentPage from './components/resident/ResidentPage';
 import NotFoundPage from './components/NotFoundPage';
+import MoneyOrderForm from './components/money-order-create/MoneyOrderForm';
+import MoneyOrder from './components/money-order-create/MoneyOrder';
+import MoneyOrderDelivery from './components/money-order-delivery/MoneyOrderDelivery';
+import MoneyOrderTable from './components/money-order-log/MoneyOrderTable';
+import MoneyOrderLog from './components/money-order-log/MoneyOrderLog';
+import MoneyOrderReturn from './components/money-order-delivery/MoneyOrderReturn';
 
 class App extends Component{
 
@@ -80,12 +86,24 @@ class App extends Component{
                         <Route path="/parcel-log">
                             <ParcelLog />
                         </Route>
+                        <Route path="/money-order-log">
+                            <MoneyOrderLog />
+                        </Route>
                         <Route path="/normal-post">
                             <NormalPost />
                         </Route>
                         <Route path="/registered-post" component={RegisteredPost} />
                         <Route path="/parcel-post">
                             <Parcel />
+                        </Route>
+                        <Route path="/money-order">
+                            <MoneyOrder />
+                        </Route>
+                        <Route path="/money-order-deliver">
+                            <MoneyOrderDelivery />
+                        </Route>
+                        <Route path="/money-order-return">
+                            <MoneyOrderReturn />
                         </Route>
                         <Route path="/address">
                             <CreateAddress />
@@ -102,13 +120,16 @@ class App extends Component{
                         <Route path="/postal-account">
                             <CreatePostalAccount />
                         </Route>
-                        {
+                        <Route path="/resident">
+                            <ResidentPage />
+                        </Route>
+                        {/* {
                             ( !localStorage.getItem('user_type'))
                             ? <Route path="/resident">
                                 <ResidentPage />
                             </Route>
                             : <></>
-                        }
+                        } */}
                         <Route component={NotFoundPage} />
                     </Switch>                   
                     
@@ -147,6 +168,13 @@ class App extends Component{
             // <ResidentParcelLog />
             // <ResidentNPLog />
             // <ResidentPage />
+
+            // <MoneyOrderForm />
+            // <MoneyOrder />
+            // <MoneyOrderDelivery />
+            // <MoneyOrderTable />
+            // <MoneyOrderLog />
+
             // <Example />
         );
     }

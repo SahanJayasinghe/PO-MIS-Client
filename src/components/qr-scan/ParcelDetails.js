@@ -14,7 +14,8 @@ class ParcelDetails extends Component {
     }
 
     loadPostDetails = (id) => {
-        axios.get(`http://localhost:5000/parcel-post/${id}`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})          
+        let header_obj = {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')};
+        axios.get(`http://localhost:5000/parcel-post/${id}`, {headers: header_obj})          
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -49,7 +50,7 @@ class ParcelDetails extends Component {
             method: 'put',
             url: `http://localhost:5000/parcel-post/location-update`,
             data: {id, post_office},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);
@@ -75,7 +76,7 @@ class ParcelDetails extends Component {
             method: 'put',
             url: `http://localhost:5000/parcel-post/discard`,
             data: {id, post_office},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);

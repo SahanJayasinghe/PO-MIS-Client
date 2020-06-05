@@ -27,7 +27,19 @@ class Navi extends Component {
 			<>
 				<nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 					<div className="container">
-						<Link className="navbar-brand" to='/'>Post Office MIS</Link>
+						<div className="d-inline-block">
+							<Link className="navbar-brand" to='/'>Post Office MIS</Link>
+							{(localStorage.getItem('user_type') === 'post_office')
+								? <span className="font-weight-bold text-nowrap text-capitalize ml-2">
+									{`${localStorage.getItem('postal_area')}, ${localStorage.getItem('user_id')}`}
+								</span>
+								: <></>
+							}
+							{(localStorage.getItem('user_type') === 'admin')
+								? <span className="font-weight-bold text-nowrap mx-2"> {`Admin - ${localStorage.getItem('user_id')}`} </span>							
+								: <></>
+							}
+						</div>
 						<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 							<span className="oi oi-menu"></span>
 							Menu
@@ -41,13 +53,19 @@ class Navi extends Component {
 									? (localStorage.getItem('user_type') === 'post_office')
 										? <>
 										<li key="1" className="nav-item"><Link to="/qr-scan" className="nav-link">QR Scan</Link></li>
+										<li key="11" className="nav-item dropdown">
+											<a href="" className="nav-link dropdown-toggle" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Money Order</a>
+											<div className="dropdown-menu" aria-labelledby="dropdown03">
+												<Link to='/money-order-deliver' className="dropdown-item">Deliver Money Order</Link>
+												<Link to='/money-order-return' className="dropdown-item">Return Money Order</Link>
+												<Link to='/money-order-log' className="dropdown-item">Money Order Log</Link>
+											</div>
+										</li>
 										<li key="2" className="nav-item dropdown">
 											<a href="" className="nav-link dropdown-toggle" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mail Logs</a>
 											<div className="dropdown-menu" aria-labelledby="dropdown04">
 												<Link to='/reg-post-log' className="dropdown-item">Registered Post</Link>
-												<Link to='/parcel-log' className="dropdown-item">Parcel Post</Link>
-												{/* <a className="dropdown-item" href="ftc_t.html">Parcels</a> */}
-												<a className="dropdown-item" href="moneyorder_t.html">Money Order</a>							
+												<Link to='/parcel-log' className="dropdown-item">Parcel Post</Link>							
 											</div>
 										</li>
 										<li key="3" className="nav-item"><a href="" className="nav-link" data-toggle="modal" data-target="#modalLogoutForm">Logout</a></li>

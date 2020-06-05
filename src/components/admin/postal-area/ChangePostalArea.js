@@ -39,7 +39,7 @@ class ChangePostalArea extends Component {
             method: 'put',
             url: `http://localhost:5000/postal-areas`,
             data: {code, name, prev_code},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);                

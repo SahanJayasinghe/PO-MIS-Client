@@ -14,7 +14,8 @@ class NormalPostDetails extends Component {
     }
 
     loadPostDetails = (id) => {
-        axios.get(`http://localhost:5000/normal-post/${id}`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})          
+        let header_obj = {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')};
+        axios.get(`http://localhost:5000/normal-post/${id}`, {headers: header_obj})
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -50,7 +51,7 @@ class NormalPostDetails extends Component {
             method: 'put',
             url: `http://localhost:5000/normal-post/discard`,
             data: {id, post_office},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);

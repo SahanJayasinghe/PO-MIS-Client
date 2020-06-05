@@ -49,7 +49,7 @@ class ChangeAddress extends Component {
             method: 'put',
             url: `http://localhost:5000/addresses/${id}`,
             data: {number, street, sub_area, postal_area},
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);                
@@ -75,7 +75,7 @@ class ChangeAddress extends Component {
                     </button>
                 </Modal.Header>
                 <Modal.Body>
-                    <form onSubmit={this.handleSubmit} className="billing-form">
+                    <form onSubmit={this.handleSubmit} className="billing-form mx-5">
                         <div className="row justify-content-center">
                             <div className="col-md-6">
                                 <div className="form-group">

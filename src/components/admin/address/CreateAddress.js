@@ -103,7 +103,7 @@ class CreateAddress extends Component {
                                                     placeholder="Enter Street"
                                                     minLength="1"
                                                     maxLength="50"
-                                                    pattern = '^(?=.*[A-Za-z0-9])[A-Za-z\d\-/()\\.,\s]{1,50}$'
+                                                    pattern = '^(?=.*[A-Za-z])[A-Za-z\d\-/()\\.,\s]{1,50}$'
                                                 />
                                             </div>
                                         </div>
@@ -121,7 +121,7 @@ class CreateAddress extends Component {
                                                     placeholder="Enter Sub Area"
                                                     minLength="1"
                                                     maxLength="50"
-                                                    pattern = '^(?=.*[A-Za-z0-9])[A-Za-z\d\-/()\\.,\s]{1,50}$'
+                                                    pattern = '^(?=.*[A-Za-z])[A-Za-z\d\-/()\\.,\s]{1,50}$'
                                                 />
                                             </div>
                                         </div>

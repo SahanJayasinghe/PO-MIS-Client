@@ -176,6 +176,15 @@ class App extends Component{
             // <MoneyOrderLog />
 
             // <Example />
+
+            // [2, '121/B', 'Temple Rd', 'rawathawatta', 'moratuwa', '10400']
+
+            // <QRCode type="RegPost" id={'1'} 
+            // sender={ [1, '46', 'Mill Rd', 'Hiriwala', 'kal-eliya', '11160'] } 
+            // receiver={ [2, '121/B', 'Temple Rd', 'rawathawatta', 'moratuwa', '10400'] } />
+
+            // <QRCode type="Parcel" id={'6'} 
+            // address={ [2, '121/B', 'Temple Rd', 'rawathawatta', 'moratuwa', '10400'] } />
         );
     }
 }

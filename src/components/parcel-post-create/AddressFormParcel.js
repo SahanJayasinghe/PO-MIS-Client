@@ -176,7 +176,7 @@ class AddressFormParcel extends Component {
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div className="form-group">
-                            <label htmlFor="postcodezip">Parcel Description</label>
+                            <label htmlFor="postcodezip">Parcel Description <span className="text-info">(Optional)</span></label>
                             <textarea
                                 name="descript"
                                 value={descript} 

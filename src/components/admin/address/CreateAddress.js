@@ -12,7 +12,7 @@ class CreateAddress extends Component {
             number: '',
             street: '',
             sub_area: '',
-            postal_area: 'sel_default',
+            postal_code: 'sel_default',
             area_list: [],
             res_data: null
         }
@@ -41,8 +41,8 @@ class CreateAddress extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
-        let {number, street, sub_area, postal_area} = this.state;
-        let post_obj = {number, street, sub_area, postal_area};
+        let {number, street, sub_area, postal_code} = this.state;
+        let post_obj = {number, street, sub_area, postal_code};
         axios({
             method: 'post',
             url: 'http://localhost:5000/addresses',
@@ -62,7 +62,7 @@ class CreateAddress extends Component {
 
     render() {
         if(localStorage.getItem('user_type') === 'admin'){
-            const {number, street, sub_area, postal_area, area_list, res_data} = this.state;
+            const {number, street, sub_area, postal_code, area_list, res_data} = this.state;
 
             return (
                 <>
@@ -131,8 +131,8 @@ class CreateAddress extends Component {
                                                 <div className="select-wrap">
                                                     <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                                                     <select 
-                                                        name="postal_area"                                 
-                                                        value={postal_area} 
+                                                        name="postal_code"                                 
+                                                        value={postal_code} 
                                                         onChange={this.handleInput}
                                                         title="Choose a Postal Area" 
                                                         className="form-control"
@@ -143,9 +143,7 @@ class CreateAddress extends Component {
                                                         <option value="sel_default" disabled>Select a postal area</option>
                                                         {
                                                             area_list.map(area => (
-                                                                <option 
-                                                                    key={area.code} 
-                                                                    value={`${area.name},${area.code}`}>
+                                                                <option key={area.code} value={area.code}>
                                                                     {area.name}, {area.code}
                                                                 </option>
                                                                 )

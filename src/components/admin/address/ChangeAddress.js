@@ -13,7 +13,7 @@ class ChangeAddress extends Component {
             number: '',
             street: '',
             sub_area: '',
-            postal_area: 'sel_default',
+            postal_code: 'sel_default',
             area_list: [],
         }        
     }
@@ -24,7 +24,7 @@ class ChangeAddress extends Component {
             number: address[1],
             street: address[2],
             sub_area: address[3],
-            postal_area: address[4],
+            postal_code: address[4],
             area_list
         })
     }
@@ -44,16 +44,16 @@ class ChangeAddress extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
-        let {id, number, street, sub_area, postal_area} = this.state;
+        let {id, number, street, sub_area, postal_code} = this.state;
         axios({
             method: 'put',
             url: `http://localhost:5000/addresses/${id}`,
-            data: {number, street, sub_area, postal_area},
+            data: {number, street, sub_area, postal_code},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);                
-                this.props.changePostalArea(postal_area);
+                this.props.changePostalArea(postal_code);
                 alert(res.data);                        
             })
             .catch(err => {
@@ -65,7 +65,7 @@ class ChangeAddress extends Component {
     
     render() {
         console.log('ChangeAddress Render');
-        const {number, street, sub_area, postal_area, area_list} = this.state;
+        const {number, street, sub_area, postal_code, area_list} = this.state;
         return (
             <Modal size="lg" show={this.props.show} onHide={this.props.toggle}>
                 <Modal.Header>
@@ -134,8 +134,8 @@ class ChangeAddress extends Component {
                                     <div className="select-wrap">
                                         <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                                         <select 
-                                            name="postal_area"                                 
-                                            value={postal_area} 
+                                            name="postal_code"                                 
+                                            value={postal_code} 
                                             onChange={this.handleInput}
                                             title="Choose a Postal Area" 
                                             className="form-control"
@@ -146,9 +146,7 @@ class ChangeAddress extends Component {
                                             <option value="sel_default" disabled>Select a postal area</option>
                                             {
                                                 area_list.map(area => (
-                                                    <option 
-                                                        key={area.code} 
-                                                        value={`${area.name},${area.code}`}>
+                                                    <option key={area.code} value={area.code}>                                                                                                                
                                                         {area.name}, {area.code}
                                                     </option>
                                                     )

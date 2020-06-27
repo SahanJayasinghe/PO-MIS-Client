@@ -9,7 +9,7 @@ class AddressFormNP extends Component{
 
         this.state = {
             house_number: '',
-            postal_area: 'sel_default',
+            postal_code: 'sel_default',
             price: 0,
             area_list: []            
         };
@@ -41,9 +41,9 @@ class AddressFormNP extends Component{
         // console.log(this.state.house_number);
     }
 
-    handlePostalArea = (event) => {
+    handlePostalCode = (event) => {
         this.setState({
-            postal_area: event.target.value
+            postal_code: event.target.value
         });
     }
 
@@ -72,11 +72,11 @@ class AddressFormNP extends Component{
         event.preventDefault();               
         let post_obj = {
             number: this.state.house_number,
-            postal_area: this.state.postal_area
+            postal_code: this.state.postal_code
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/normal-post/address',
+            url: 'http://localhost:5000/addresses/confirm',
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
@@ -89,20 +89,6 @@ class AddressFormNP extends Component{
                 this.props.loadConfirmation();
                 handleRequestError(err);
             })
-        
-
-        // let address_obj = {
-        //     id: '1',
-        //     house_number: '28/B',
-        //     street: 'Wawahena watta',
-        //     sub_area: 'hiriwala',
-        //     postal_area: 'kal-eliya',
-        //     postal_code: '11160'
-        // };
-        // this.props.loadConfirmation(address_obj);
-        // this.setState({
-        //     confirmation: <ConfirmAddress address={address_obj} />
-        // });
     }
 
     validate = (event) => {
@@ -110,7 +96,7 @@ class AddressFormNP extends Component{
     }
 
     render(){
-        const {house_number, postal_area, price, area_list} = this.state;
+        const {house_number, postal_code, price, area_list} = this.state;
         return(         
             <form onSubmit={this.handleSubmit} className="billing-form">
                 <h3 className="mb-4 billing-heading">Fill in Letter Details</h3>						
@@ -139,10 +125,9 @@ class AddressFormNP extends Component{
                         <div className="select-wrap">
                             <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                             <select 
-                                name="postal_area" 
-                                id="" 
-                                value={postal_area} 
-                                onChange={this.handlePostalArea}
+                                name="postal_code"
+                                value={postal_code} 
+                                onChange={this.handlePostalCode}
                                 title="Choose a Postal Area" 
                                 className="form-control"
                                 required
@@ -152,9 +137,7 @@ class AddressFormNP extends Component{
                                 <option value="sel_default" disabled>Select a postal area</option>
                                 {
                                     area_list.map(area => (
-                                        <option 
-                                            key={area.code} 
-                                            value={`${area.name},${area.code}`}>
+                                        <option key={area.code} value={area.code}>                                                                                        
                                             {area.name}, {area.code}
                                         </option>
                                         )

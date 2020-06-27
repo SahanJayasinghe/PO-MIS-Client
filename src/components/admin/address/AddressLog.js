@@ -9,7 +9,7 @@ class AddressLog extends Component {
         super(props)
     
         this.state = {
-            postal_area: 'sel_default',
+            postal_code: 'sel_default',
             address_arr: [],
             t_headers: ['House Number', 'Street', 'Sub Area', "Resident's Key"],
             area_list: [],
@@ -32,17 +32,17 @@ class AddressLog extends Component {
             })
     }
 
-    fetchAddresses = (postal_area) => {
+    fetchAddresses = (postal_code) => {
         axios({
             method: 'post',
             url: 'http://localhost:5000/addresses/area',
-            data: {postal_area},
+            data: {postal_code},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
                 console.log(res);
                 this.setState({
-                    postal_area,
+                    postal_code,
                     address_arr: res.data,
                     modal_show: false
                 });                         
@@ -67,15 +67,15 @@ class AddressLog extends Component {
         let address = this.state.address_arr[event.target.value];        
         if(address[2] === '_') {address[2] = ''}
         if(address[3] === '_') {address[3] = ''}
-        address[4] = this.state.postal_area;
+        address[4] = this.state.postal_code;
         console.log(address);
         this.toggleModal();
         this.component_ref.current.setValues(address, this.state.area_list);
         // this.component_ref.current.toggleModal();        
     }
 
-    changePostalArea = (postal_area) => {
-        this.fetchAddresses(postal_area);
+    changePostalArea = (postal_code) => {
+        this.fetchAddresses(postal_code);
     }
 
     render() {
@@ -88,7 +88,7 @@ class AddressLog extends Component {
             let special_thead = {
                 backgroundColor: "white"
             }
-            const {t_headers, address_arr, area_list, postal_area} = this.state;
+            const {t_headers, address_arr, area_list, postal_code} = this.state;
 
             return (
                 <>
@@ -101,8 +101,8 @@ class AddressLog extends Component {
                                     <div className="select-wrap">
                                         <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                                         <select 
-                                            name="postal_area"                                 
-                                            value={postal_area} 
+                                            name="postal_code"                                 
+                                            value={postal_code} 
                                             onChange={this.handlePostalArea}
                                             title="Choose a Postal Area" 
                                             className="form-control"
@@ -113,9 +113,7 @@ class AddressLog extends Component {
                                             <option value="sel_default" disabled>Select a postal area</option>
                                             {
                                                 area_list.map(area => (
-                                                    <option 
-                                                        key={area.code} 
-                                                        value={`${area.name},${area.code}`}>
+                                                    <option key={area.code} value={area.code}>                                                                                                                
                                                         {area.name}, {area.code}
                                                     </option>
                                                     )
@@ -157,7 +155,7 @@ class AddressLog extends Component {
                                     </table>
                                 </div>
                             </div>
-                            : (postal_area !== 'sel_default')
+                            : (postal_code !== 'sel_default')
                             ? <div className="row">
                                 <h5 className="font-italic"><small className="text-muted">No Address records in this postal area</small></h5>
                             </div>

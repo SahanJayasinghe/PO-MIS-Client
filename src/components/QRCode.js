@@ -18,14 +18,17 @@ class QRCode extends Component{
         let qrData;
         let dt = new Date();
         let dt_str;
+        let date = dt.toLocaleDateString().split('/');
+        let time = dt.toTimeString().split(' ');
+        dt_str = `${date[2]}-${date[0]}-${date[1]} ${time[0]}`;
         let id;
 
         if(this.props.type === "NormalPost"){
             let address_arr = this.props.address;            
             let addressStr = address_arr.slice(1).join(', ');
-            let date = dt.toLocaleDateString().split('/');
-            let time = dt.toTimeString().split(' ');
-            dt_str = `${date[2]}-${date[0]}-${date[1]} ${time[0]}`;
+            // let date = dt.toLocaleDateString().split('/');
+            // let time = dt.toTimeString().split(' ');
+            // dt_str = `${date[2]}-${date[0]}-${date[1]} ${time[0]}`;
 
             id = address_arr[0];
             qrData = `type=NormalPost_id=${address_arr[0]}_DeliveryAddress=${addressStr}_PostedOn=${dt_str}`;

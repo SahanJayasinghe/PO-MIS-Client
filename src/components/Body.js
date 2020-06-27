@@ -76,14 +76,14 @@ function Body(){
 								</div>
 								<div className="col-md-6">
 									<div className="category-wrap  img mb-4 d-flex align-items-end" style={regpost}>
-										<div className="text px-3 py-1">
+										{/* <div className="text px-3 py-1">
 											<h2 className="mb-0"><Link to='/registered-post' className="py-2 px-4">Registered Post</Link></h2>
-										</div>
+										</div> */}
 									</div>
 									<div className="category-wrap  img d-flex align-items-end" style={npost}>
-										<div className="text px-3 py-1">
+										{/* <div className="text px-3 py-1">
 											<h2 className="mb-0"><Link to='/normal-post' className="py-2 px-4">Normal Post</Link></h2>
-										</div>
+										</div> */}
 									</div>
 								</div>
 							</div>
@@ -91,14 +91,14 @@ function Body(){
 
 						<div className="col-md-4">
 							<div className="category-wrap  img mb-4 d-flex align-items-end" style={parcel}>
-								<div className="text px-3 py-1">
+								{/* <div className="text px-3 py-1">
 									<h2 className="mb-0"><Link to='/parcel-post' className="py-2 px-4">Parcel Delivery</Link></h2>
-								</div>		
+								</div>		 */}
 							</div>
 							<div className="category-wrap  img d-flex align-items-end" style={moneyord}>
-								<div className="text px-3 py-1">
+								{/* <div className="text px-3 py-1">
 									<h2 className="mb-0"><Link to='/money-order' className="py-2 px-4">Money Order</Link></h2>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>

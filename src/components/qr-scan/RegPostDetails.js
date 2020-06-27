@@ -135,7 +135,7 @@ class RegPostDetails extends Component {
                             : <></>
                         }
                         { ( ['sender-unavailable', 'sent-back', 'failed'].includes(status[0]) )
-                            ? <span className="d-flex"> # Delivery Attempts to Sender :<span className="font-weight-bold ml-2"> ${attempts_sender} </span> </span>
+                            ? <span className="d-flex"> # Delivery Attempts to Sender :<span className="font-weight-bold ml-2"> {attempts_sender} </span> </span>
                             : <></>
                         }
                         <span className="d-flex"> Posted At :<span className="font-weight-bold ml-2"> {posted_on} </span> </span>

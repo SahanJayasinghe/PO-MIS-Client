@@ -11,10 +11,10 @@ class AddressFormRP extends Component {
         this.state = {
             receiver_name: '',
             receiver_number: '',
-            rec_postal_area: 'sel_default',
+            rec_postal_code: 'sel_default',
             sender_name: '',
             sender_number: '',
-            sen_postal_area: 'sel_default',  
+            sen_postal_code: 'sel_default',  
             price: '',
             speed_post: false,       
             area_list: []
@@ -64,8 +64,8 @@ class AddressFormRP extends Component {
         console.log(this.state);
         event.preventDefault();
         let post_obj = {
-            receiver: {number: this.state.receiver_number, postal_area: this.state.rec_postal_area},
-            sender: {number: this.state.sender_number, postal_area: this.state.sen_postal_area}
+            receiver: {number: this.state.receiver_number, postal_code: this.state.rec_postal_code},
+            sender: {number: this.state.sender_number, postal_code: this.state.sen_postal_code}
         }
         let rp_details = {
             receiver_name: this.state.receiver_name,
@@ -91,7 +91,7 @@ class AddressFormRP extends Component {
     }
 
     render() {
-        const {receiver_name, receiver_number, rec_postal_area, sender_name, sender_number, sen_postal_area, price, speed_post, area_list} = this.state;
+        const {receiver_name, receiver_number, rec_postal_code, sender_name, sender_number, sen_postal_code, price, speed_post, area_list} = this.state;
         return (
             <form onSubmit={this.handleSubmit} className="billing-form">
                 <h3 className="mb-4 billing-heading">Fill in Letter Details</h3>
@@ -138,9 +138,8 @@ class AddressFormRP extends Component {
                                 <div className="select-wrap">
                                     <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                                     <select 
-                                        name="rec_postal_area" 
-                                        id="" 
-                                        value={rec_postal_area} 
+                                        name="rec_postal_code"
+                                        value={rec_postal_code} 
                                         onChange={this.handleInput}
                                         title="Choose a Postal Area" 
                                         className="form-control"
@@ -151,9 +150,7 @@ class AddressFormRP extends Component {
                                         <option value="sel_default" disabled>Select a postal area</option>
                                         {
                                             area_list.map(area => (
-                                                <option 
-                                                    key={area.code} 
-                                                    value={`${area.name},${area.code}`}>
+                                                <option key={area.code} value={area.code}>                                                                                                        
                                                     {area.name}, {area.code}
                                                 </option>
                                                 )
@@ -206,9 +203,8 @@ class AddressFormRP extends Component {
                                 <div className="select-wrap">
                                     <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                                     <select 
-                                        name="sen_postal_area" 
-                                        id="" 
-                                        value={sen_postal_area} 
+                                        name="sen_postal_code"
+                                        value={sen_postal_code} 
                                         onChange={this.handleInput}
                                         title="Choose a Postal Area" 
                                         className="form-control"
@@ -219,9 +215,7 @@ class AddressFormRP extends Component {
                                         <option value="sel_default" disabled>Select a postal area</option>
                                         {
                                             area_list.map(area => (
-                                                <option 
-                                                    key={area.code} 
-                                                    value={`${area.name},${area.code}`}>
+                                                <option key={area.code} value={area.code}>
                                                     {area.name}, {area.code}
                                                 </option>
                                                 )

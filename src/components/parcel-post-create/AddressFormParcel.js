@@ -10,7 +10,7 @@ class AddressFormParcel extends Component {
         this.state = {
             receiver_name: '',
             house_number: '',
-            postal_area: 'sel_default',
+            postal_code: 'sel_default',
             payment: '',
             descript: '',
             area_list: []
@@ -55,11 +55,11 @@ class AddressFormParcel extends Component {
 
         let post_obj = {
             number: this.state.house_number,
-            postal_area: this.state.postal_area
+            postal_code: this.state.postal_code
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/parcel-post/address',
+            url: 'http://localhost:5000/addresses/confirm',
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
@@ -75,7 +75,7 @@ class AddressFormParcel extends Component {
     }
 
     render() {
-        const {receiver_name, house_number, postal_area, payment, descript, area_list} = this.state;
+        const {receiver_name, house_number, postal_code, payment, descript, area_list} = this.state;
         return (
             <form onSubmit={this.handleSubmit} className="billing-form">
                 <h3 className="mb-4 billing-heading">Fill in Parcel Details</h3>                
@@ -123,8 +123,8 @@ class AddressFormParcel extends Component {
                             <div className="select-wrap">
                                 <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                                 <select 
-                                    name="postal_area"                                 
-                                    value={postal_area} 
+                                    name="postal_code"                                 
+                                    value={postal_code} 
                                     onChange={this.handleInput}
                                     title="Choose a Postal Area" 
                                     className="form-control"
@@ -135,9 +135,7 @@ class AddressFormParcel extends Component {
                                     <option value="sel_default" disabled>Select a postal area</option>
                                     {
                                         area_list.map(area => (
-                                            <option 
-                                                key={area.code} 
-                                                value={`${area.name},${area.code}`}>
+                                            <option key={area.code} value={area.code}>
                                                 {area.name}, {area.code}
                                             </option>
                                             )

@@ -8,7 +8,7 @@ class ResidentForm extends Component {
     
         this.state = {
             house_number: '',
-            postal_area: 'sel_default',
+            postal_code: 'sel_default',
             resident_key: '',
             area_list: [{code: '11160', name: 'kal-eliya'}, {code: '10400', name: 'moratuwa'}]
         }
@@ -37,11 +37,11 @@ class ResidentForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
-        let {house_number, postal_area, resident_key} = this.state;
+        let {house_number, postal_code, resident_key} = this.state;
         axios({
             method: 'post',
             url: `http://localhost:5000/resident-details/address`,
-            data: {number: house_number, postal_area, resident_key},
+            data: {number: house_number, postal_code, resident_key},
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
             .then(res => {
@@ -56,10 +56,10 @@ class ResidentForm extends Component {
     }
     
     render() {
-        const {house_number, postal_area, resident_key, area_list} = this.state;        
+        const {house_number, postal_code, resident_key, area_list} = this.state;        
         return (
             <form onSubmit={this.handleSubmit} className="billing-form">
-                <h3 className="mb-4 billing-heading">Insert Postal Account Details</h3>
+                <h3 className="mb-4 billing-heading">Insert Your Address Details</h3>
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <div className="form-group">
@@ -84,8 +84,8 @@ class ResidentForm extends Component {
                             <div className="select-wrap">
                                 <div className="icon"><span className="ion-ios-arrow-down"></span></div>
                                 <select 
-                                    name="postal_area"                                 
-                                    value={postal_area} 
+                                    name="postal_code"                                 
+                                    value={postal_code} 
                                     onChange={this.handleInput}
                                     title="Choose a Postal Area" 
                                     className="form-control"
@@ -94,9 +94,7 @@ class ResidentForm extends Component {
                                     <option value="sel_default" disabled>Select a postal area</option>
                                     {
                                         area_list.map(area => (
-                                            <option 
-                                                key={area.code} 
-                                                value={`${area.name},${area.code}`}>
+                                            <option key={area.code} value={area.code}>
                                                 {area.name}, {area.code}
                                             </option>
                                             )

@@ -149,7 +149,7 @@ class MoneyOrderForm extends Component {
                                     <option value="sel_default" disabled>Select a postal area</option>
                                     {
                                         area_list.map(area => (
-                                            <option key={area.code} value={area.code}>                                                
+                                            <option key={area.code} value={area.code}>
                                                 {area.name}, {area.code}
                                             </option>
                                             )

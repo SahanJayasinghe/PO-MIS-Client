@@ -60,7 +60,7 @@ class MoneyOrderTable extends Component {
                                     <tr key={idx} className="text-center">
                                         {
                                             money_order.slice(1).map( (el, idx) => (
-                                                <td key={idx} className='product-name'>{el}</td>
+                                                <td key={idx} className='product-name text-dark'>{el}</td>
                                             ))
                                         }
                                     </tr>

@@ -145,7 +145,7 @@ class AddressLog extends Component {
                                                         <td><button className="btn btn-sm btn-info py-2 px-4" onClick={this.handleEdit} value={idx}>Edit</button></td>
                                                         {                                        
                                                             address.slice(1).map( (el, idx) => (
-                                                                <td key={idx} className='product-name'>{el}</td>                                            
+                                                                <td key={idx} className='product-name text-dark'>{el}</td>                                            
                                                             ))
                                                         }                                
                                                     </tr>

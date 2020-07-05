@@ -94,7 +94,7 @@ class NormalPostDetails extends Component {
                                         <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>                                    
                                         {
                                             address.map((el, idx) => (
-                                                <p key={idx} className="d-flex"> <span>{el},</span> </p>
+                                                <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                             ))
                                         }                                
                                     </div>

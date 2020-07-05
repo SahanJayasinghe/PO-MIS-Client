@@ -57,7 +57,7 @@ class ConfirmNP extends Component{
                             <h3 className="billing-heading mb-3 text-center">Delivery Address</h3>
                             {
                                 address.slice(1).map((el, idx) => (
-                                    <p key={idx} className="d-flex"> <span>{el},</span> </p>
+                                    <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                 ))
                             }
                             {/* <p className="d-flex"> <span>{this.state.number},</span> </p>

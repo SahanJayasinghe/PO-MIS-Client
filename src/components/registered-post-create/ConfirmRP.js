@@ -22,7 +22,7 @@ class ConfirmRP extends Component {
         let check2 = (prevProps.rp_details.sender_name !== this.props.rp_details.sender_name);
         let check3 = (this.props.receiver[0] !== prevProps.receiver[0]);
         let check4 = (this.props.sender[0] !== prevProps.sender[0]);
-        if(check1 && check2 && check3 && check4){
+        if(check1 || check2 || check3 || check4){
             console.log('ConfirmRP componentDidUpdate');
             console.log(this.props);
             // let {id, number, street, sub_area, postal_area, postal_code} = this.props.address;
@@ -72,10 +72,10 @@ class ConfirmRP extends Component {
                         <div className="col-md-6">
                             <div className="cart-detail cart-total p-3 p-md-3">
                                 <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>
-                                <p className="d-flex"> <span>{receiver_name},</span> </p>
+                                <p className="d-flex font-weight-bold mx-2"> {receiver_name}, </p>
                                 {
                                     receiver.slice(1).map((el, idx) => (
-                                        <p key={idx} className="d-flex"> <span>{el},</span> </p>
+                                        <p key={idx} className="d-flex font-weight-bold mx-2"> {el}, </p>
                                     ))
                                 }
                                 {/* <p className="d-flex"> <span>{receiver.number},</span> </p>
@@ -96,10 +96,10 @@ class ConfirmRP extends Component {
                         <div className="col-md-6">
                             <div className="cart-detail cart-total p-3 p-md-3">
                                 <h3 className="billing-heading mb-3 text-center">Sender Address</h3>
-                                <p className="d-flex"> <span>{sender_name},</span> </p>
+                                <p className="d-flex font-weight-bold mx-2"> {sender_name}, </p>
                                 {
                                     sender.slice(1).map((el, idx) => (
-                                        <p key={idx} className="d-flex"> <span>{el},</span> </p>
+                                        <p key={idx} className="d-flex font-weight-bold mx-2"> {el}, </p>
                                     ))
                                 }
                                 {/* <p className="d-flex"> <span>{sender.number},</span> </p>

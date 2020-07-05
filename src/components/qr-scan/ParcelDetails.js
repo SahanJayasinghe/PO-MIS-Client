@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { handleRequestError } from '../../helpers/error_handler';
+import ParcelRouteInfo from './ParcelRouteInfo';
 
 class ParcelDetails extends Component {
     constructor(props) {
@@ -9,8 +10,16 @@ class ParcelDetails extends Component {
 
         this.state = {
             id: props.id,
-            post_details: null
+            post_details: null,
+            modal_show: false
         }
+        this.component_ref = React.createRef();
+    }
+
+    toggleModal = () =>{
+        this.setState({
+            modal_show: !this.state.modal_show
+        })
     }
 
     loadPostDetails = (id) => {
@@ -62,6 +71,7 @@ class ParcelDetails extends Component {
                 this.setState({
                     post_details: new_details
                 });
+                this.component_ref.current.fetchRouteInfo(id);
             })
             .catch(err => {
                 console.log(err);                
@@ -108,18 +118,28 @@ class ParcelDetails extends Component {
             let should_discard = (status[0] === 'receiver-unavailable' && attempts_receiver > 0 && receiver[receiver.length - 1] === post_office);
             
             return (
+                <>
                 <div className="col-md-8">
                     <div className="row justify-content-center">
                         <h3 className="billing-heading mb-3 d-inline-block">Parcel Post</h3>                        
                     </div>                     
-                    <div className="row cart-detail p-3 p-md-3 ml-4">
-                        <span className="d-flex"> Delivery Status :<span className="font-weight-bold ml-2"> {status[1]} </span> </span>
-                        <span className="d-flex"> Last Updated At :<span className="font-weight-bold ml-2">  {`${last_update}  ${last_location}`} </span> </span>
-                        { (status[0] !== 'on-route-receiver')
-                            ? <span className="d-flex"> # Delivery Attempts :<span className="font-weight-bold ml-2"> {attempts_receiver} </span> </span>
-                            : <></>
-                        }                    
-                        <span className="d-flex"> Posted At :<span className="font-weight-bold ml-2"> {`${posted_on}  ${posted_location}`} </span> </span>
+                    <div className="row justify-content-around">
+                        <div className="col-lg-8">
+                            <div className="cart-detail p-3 p-md-3 ml-4">
+                                <span className="row d-flex"> Delivery Status :<span className="font-weight-bold ml-2"> {status[1]} </span> </span>
+                                <span className="row d-flex"> Last Updated At :<span className="font-weight-bold ml-2">  {`${last_update}  ${last_location}`} </span> </span>
+                                { (status[0] !== 'on-route-receiver')
+                                    ? <span className="row d-flex"> # Delivery Attempts :<span className="font-weight-bold ml-2"> {attempts_receiver} </span> </span>
+                                    : <></>
+                                }                    
+                                <span className="row d-flex"> Posted At :<span className="font-weight-bold ml-2"> {`${posted_on}  ${posted_location}`} </span> </span>
+                            </div>
+                        </div>
+                        <div className="col-lg-4 my-3">
+                            <div className="cart-detail p-3 p-md-3 py-4">
+                                <button className="btn btn-md btn-info px-4 py-3" onClick={this.toggleModal}>Route Info</button>
+                            </div>
+                        </div>
                     </div>
                     <div className="row mt-3 pt-2">                                       
                         <div className="col-md-12 mb-4">
@@ -129,7 +149,7 @@ class ParcelDetails extends Component {
                                         <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>                                    
                                         {
                                             receiver.map((el, idx) => (
-                                                <p key={idx} className="d-flex"> <span>{el},</span> </p>
+                                                <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                             ))
                                         }                                
                                     </div>
@@ -162,6 +182,8 @@ class ParcelDetails extends Component {
                         }            
                     </div>
                 </div>
+                <ParcelRouteInfo show={this.state.modal_show} toggle={this.toggleModal} id={this.state.id} ref={this.component_ref} />
+                </>
             )
         }
         else{

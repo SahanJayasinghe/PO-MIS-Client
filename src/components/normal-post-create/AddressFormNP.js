@@ -10,7 +10,7 @@ class AddressFormNP extends Component{
         this.state = {
             house_number: '',
             postal_code: 'sel_default',
-            price: 0,
+            price: '',
             area_list: []            
         };
     }

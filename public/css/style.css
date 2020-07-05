@@ -8925,7 +8925,7 @@ h1, h2, h3, h4, h5,
   width: 100%;
   text-align: center; }
   .table th {
-    font-weight: 500; }
+    font-weight: 700; }
   .table .thead-primary {
     background: #82ae46; }
     .table .thead-primary tr th {
@@ -8937,7 +8937,7 @@ h1, h2, h3, h4, h5,
     vertical-align: middle;
     padding: 40px 10px;
     border: 1px solid transparent !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important; }
     .table tbody tr td.product-remove a {
       bordeR: 1px solid rgba(0, 0, 0, 0.1);
       padding: 4px 10px;
@@ -8967,7 +8967,7 @@ h1, h2, h3, h4, h5,
 .cart-total {
   width: 100%;
   display: block;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 20px; }
   .cart-total h3 {
     font-size: 16px;
@@ -9015,14 +9015,14 @@ h1, h2, h3, h4, h5,
     appearance: none; }
 
 .billing-form .form-control {
-  font-weight: 300;
+  font-weight: 600;
   border: transparent !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.4) !important;
   height: 58px !important;
   padding-left: 15px;
   padding-right: 15px;
   background: transparent !important;
-  color: rgba(0, 0, 0, 0.4) !important;
+  color: rgba(0, 0, 0, 0.8) !important;
   font-size: 14px;
   border-radius: 0px;
   -webkit-box-shadow: none !important;

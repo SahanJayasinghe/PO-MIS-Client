@@ -115,14 +115,14 @@ class LogTable extends Component {
                                         }
                                         {                                        
                                             post.slice(2).map( (el, idx) => (
-                                                ((typeof el === 'string' || typeof el === 'number')) ? <td key={idx} className='product-name'>{el}</td>                                           
-                                                : <td key={idx} className='product-name'>{el[0]}<br/>{el[1]}</td>                                            
+                                                ((typeof el === 'string' || typeof el === 'number')) ? <td key={idx} className='product-name text-dark'>{el}</td>                                           
+                                                : <td key={idx} className='product-name text-dark'>{el[0]}<br/>{el[1]}</td>                                            
                                             ))
                                         }                                
                                     </tr>
                                 ))
                                 : posts.map( (post, idx) => (
-                                    <tr key={idx} className="text-center">                                                        
+                                    <tr key={idx} className="text-center text-dark">                                                        
                                         {/* <td><span className="badge badge-pill badge-secondary">View</span></td> */}
                                         {                                        
                                             post.slice(1).map( (el, idx) => (

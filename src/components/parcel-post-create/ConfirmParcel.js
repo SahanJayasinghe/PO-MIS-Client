@@ -9,19 +9,19 @@ class ConfirmParcel extends Component {
     
         this.state = {
             receiver_name: props.receiver_name,
-            address: props.address,
-            payment: props.payment,
-            descript: props.descript
+            address: props.address
         }
     }
 
     componentDidUpdate(prevProps){
-        if((this.props.address[0] !== prevProps.address[0]) || (this.props.payment !== prevProps.payment)){
+        let name_check = (this.props.receiver_name !== prevProps.receiver_name);
+        let address_check = (this.props.address[0] !== prevProps.address[0]);
+        if(name_check || address_check){
             console.log('ConfirmParcel componentDidUpdate');
             console.log(this.props);
             // let {id, number, street, sub_area, postal_area, postal_code} = this.props.address;
             // let price = this.props.price;
-            this.setState({receiver_name: this.props.receiver_name, address: this.props.address, payment: this.props.payment, descript: this.props.descript});
+            this.setState({receiver_name: this.props.receiver_name, address: this.props.address});
         }
     }
 
@@ -32,8 +32,8 @@ class ConfirmParcel extends Component {
         }
         let post_obj = {
             receiver,
-            payment: this.state.payment,
-            descript: this.state.descript,
+            payment: this.props.payment,
+            descript: this.props.descript,
             post_office: localStorage.getItem('user_id')
         };
 
@@ -65,7 +65,7 @@ class ConfirmParcel extends Component {
                             <p className="d-flex"> <span>{receiver_name},</span> </p>
                             {
                                 address.slice(1).map((el, idx) => (
-                                    <p key={idx} className="d-flex"> <span>{el},</span> </p>
+                                    <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                 ))
                             }								
                         </div>

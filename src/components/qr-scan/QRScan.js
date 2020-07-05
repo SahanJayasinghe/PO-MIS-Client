@@ -85,7 +85,7 @@ class QRScan extends Component {
         return (
             <div className="col-md-4">
                 <div className="row justify-content-center">
-                    <div className="col-md-12">                        
+                    <div className="col-md-12">
                         <div className="cart-detail p-3 p-md-3">
                             <p><button onClick={this.state.ClickFn} className="btn btn-primary py-3 px-4">{this.state.btnName}</button></p>
                         </div>

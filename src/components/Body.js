@@ -6,8 +6,6 @@ import npimg from '../images/5.jpg';
 import parcelimg from '../images/4.png';
 import moimg from '../images/3.jpg';
 
-// import './Mys.css'
-
 function Body(){
 
 	const img = {
@@ -27,12 +25,12 @@ function Body(){
 		backgroundImage: `url(${moimg})`
 	}
 
-    return(	
+    return(
         <React.Fragment>
 			<section id="home-section" className="hero">
 				<div className="col-md-12">
 					<div className="row justify-content-center">
-					
+
 						<img src={postimg} alt=""></img>
 				{/* <div className="hero-wrap hero-bread" style={img}> */}
 					{/* <div className="container">
@@ -54,8 +52,8 @@ function Body(){
 									<div className="category-wrap-2 img align-self-stretch d-flex">
 										<div className="text text-center">
 											<h2>Effiecient Postal Service</h2>
-											<p>For the betterment of every home</p>	
-											<div className="cart-detail p-3 p-md-3">								
+											<p>For the betterment of every home</p>
+											<div className="cart-detail p-3 p-md-3">
 												<p><Link to='/normal-post' className="btn btn-primary py-2 px-4">Normal Post</Link></p>
 												<p><Link to='/registered-post' className="btn btn-primary py-2 px-4">Registered Post</Link></p>
 												<p><Link to='/parcel-post' className="btn btn-primary py-2 px-4">Parcel Delivery</Link></p>
@@ -70,7 +68,7 @@ function Body(){
 													</p>
 												</div>
 												: <></>
-											}											
+											}
 										</div>
 									</div>
 								</div>
@@ -104,7 +102,7 @@ function Body(){
 					</div>
 				</div>
 			</section>
-		</React.Fragment>		
+		</React.Fragment>
     );
 }
 

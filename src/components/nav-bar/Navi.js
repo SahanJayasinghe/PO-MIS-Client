@@ -10,9 +10,9 @@ class Navi extends Component {
 		this.state = {
 			modal_show: false
 		}
-		// this.component_ref = React.createRef();		
+		// this.component_ref = React.createRef();
 	}
-	
+
 	toggleModal = (event) => {
         console.log('Navi toggleModal');
         this.setState({
@@ -23,7 +23,7 @@ class Navi extends Component {
 	render() {
 		console.log('Navi Render');
 		console.log(this.state);
-		return (		
+		return (
 			<>
 				<nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 					<div className="container">
@@ -36,7 +36,7 @@ class Navi extends Component {
 								: <></>
 							}
 							{(localStorage.getItem('user_type') === 'admin')
-								? <span className="font-weight-bold text-nowrap mx-2"> {`Admin - ${localStorage.getItem('user_id')}`} </span>							
+								? <span className="font-weight-bold text-nowrap mx-2"> {`Admin - ${localStorage.getItem('user_id')}`} </span>
 								: <></>
 							}
 						</div>
@@ -47,9 +47,9 @@ class Navi extends Component {
 						<div className="collapse navbar-collapse" id="ftco-nav">
 							<ul className="navbar-nav ml-auto">
 								<li className="nav-item"><Link to='/' className="nav-link">Home</Link></li>
-								<li className="nav-item"><a href="about.html" className="nav-link">About</a></li>							
+								<li className="nav-item"><a href="about.html" className="nav-link">About</a></li>
 								{
-									(localStorage.getItem('user_type')) 
+									(localStorage.getItem('user_type'))
 									? (localStorage.getItem('user_type') === 'post_office')
 										? <>
 										<li key="1" className="nav-item"><Link to="/qr-scan" className="nav-link">QR Scan</Link></li>
@@ -65,7 +65,7 @@ class Navi extends Component {
 											<a href="" className="nav-link dropdown-toggle" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mail Logs</a>
 											<div className="dropdown-menu" aria-labelledby="dropdown04">
 												<Link to='/reg-post-log' className="dropdown-item">Registered Post</Link>
-												<Link to='/parcel-log' className="dropdown-item">Parcel Post</Link>							
+												<Link to='/parcel-log' className="dropdown-item">Parcel Post</Link>
 											</div>
 										</li>
 										<li key="3" className="nav-item"><a href="" className="nav-link" data-toggle="modal" data-target="#modalLogoutForm">Logout</a></li>
@@ -75,15 +75,15 @@ class Navi extends Component {
 											<a href="" className="nav-link dropdown-toggle" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Address</a>
 											<div className="dropdown-menu" aria-labelledby="dropdown05">
 												<Link to='/address-log' className="dropdown-item">Address Log</Link>
-												<Link to='/address' className="dropdown-item">Create Address</Link>																															
+												<Link to='/address' className="dropdown-item">Create Address</Link>
 											</div>
 										</li>
 										<li key="6" className="nav-item dropdown">
 											<a href="" className="nav-link dropdown-toggle" id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Postal Area</a>
 											<div className="dropdown-menu" aria-labelledby="dropdown06">
 												<Link to='/postal-area-log' className="dropdown-item">Postal Area Log</Link>
-												<Link to='/postal-area' className="dropdown-item">Create Postal Area</Link>																															
-												<Link to='/postal-account' className="dropdown-item">Create Postal Account</Link>																															
+												<Link to='/postal-area' className="dropdown-item">Create Postal Area</Link>
+												<Link to='/postal-account' className="dropdown-item">Create Postal Account</Link>
 											</div>
 										</li>
 										<li key="7" className="nav-item"><a href="" className="nav-link" data-toggle="modal" data-target="#modalLogoutForm">Logout</a></li>
@@ -91,8 +91,8 @@ class Navi extends Component {
 									: <>
 										<li key="8" className="nav-item"><Link to='/resident' className="nav-link">Your Mail</Link></li>
 										<li key="9" className="nav-item"><a href="" onClick={this.toggleModal} className="nav-link" data-toggle="modal" data-target="#modalLoginForm">Login</a></li>
-									</>								
-								}							
+									</>
+								}
 							</ul>
 						</div>
 					</div>
@@ -100,11 +100,11 @@ class Navi extends Component {
 				{(localStorage.getItem('user_type'))
 					? <Logout handleLogout={this.props.handleLogout} />
 					: <Login handleLogin={this.props.handleLogin} show={this.state.modal_show} toggle={this.toggleModal} />
-				}				
+				}
 			</>
 		);
 	}
-    
+
 }
 
 export default Navi

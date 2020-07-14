@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
-import MODeliveryForm from './MODeliveryForm'
 import axios from 'axios';
+import MODeliveryForm from './MODeliveryForm'
 import {handleRequestError} from '../../helpers/error_handler';
 import Poster from '../Poster';
+import { server_baseURL } from '../../helpers/data';
 
 class MoneyOrderReturn extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             mo_details: null,
             secret_key: null
@@ -18,14 +19,14 @@ class MoneyOrderReturn extends Component {
     loadDetails = (mo_details, secret_key) => {
         this.setState({mo_details, secret_key});
     }
-    
+
     ReturnMoneyOrder = () => {
         let id = this.state.mo_details.id;
         let secret_key = this.state.secret_key;
         let post_office = localStorage.getItem('user_id');
         axios({
             method: 'put',
-            url: 'http://localhost:5000/money-order/return',
+            url: `${server_baseURL}/money-order/return`,
             data: {id, secret_key, post_office},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
@@ -34,7 +35,7 @@ class MoneyOrderReturn extends Component {
                 let new_details = this.state.mo_details;
                 new_details.status = res.data.status;
                 new_details.delivered_at = res.data.delivered_at;
-                this.setState({mo_details: new_details});                           
+                this.setState({mo_details: new_details});
             })
             .catch(err => {
                 console.log(err);
@@ -43,9 +44,9 @@ class MoneyOrderReturn extends Component {
     }
 
     render() {
-        console.log(localStorage);
+        // console.log(localStorage);
         if (localStorage.getItem('user_type') === 'post_office') {
-            let {mo_details} = this.state;            
+            let {mo_details} = this.state;
             return (
                 <>
                 <Poster type="return Money Order" description="Verify and Return Money Order" />
@@ -59,23 +60,23 @@ class MoneyOrderReturn extends Component {
                                 ? <div className="col-lg-4">
                                     <div className="alert alert-info ml-3 mt-5" role="alert">
                                         <h5 className="font-weight-bold mb-3 text-center text-dark">Money Order Verified</h5>
-                                        <p className="d-flex row ml-1 my-1">Posted At : 
-                                            <span className="font-weight-bold ml-2">{mo_details.posted_at}</span> 
+                                        <p className="d-flex row ml-1 my-1">Posted At :
+                                            <span className="font-weight-bold ml-2">{mo_details.posted_at}</span>
                                         </p>
-                                        <p className="d-flex row ml-1 my-1">Sender : 
-                                            <span className="font-weight-bold ml-2">{mo_details.sender_name}</span> 
+                                        <p className="d-flex row ml-1 my-1">Sender :
+                                            <span className="font-weight-bold ml-2">{mo_details.sender_name}</span>
                                         </p>
-                                        <p className="d-flex row ml-1 my-1">Receiver : 
-                                            <span className="font-weight-bold ml-2">{mo_details.receiver_name}</span> 
-                                        </p>                                
-                                        <p className="d-flex row ml-1 my-1">Amount : 
-                                            <span className="font-weight-bold ml-2">{mo_details.amount}</span> 
+                                        <p className="d-flex row ml-1 my-1">Receiver :
+                                            <span className="font-weight-bold ml-2">{mo_details.receiver_name}</span>
                                         </p>
-                                        <p className="d-flex row ml-1 my-1">Delivery Expire At : 
-                                            <span className="font-weight-bold ml-2">{mo_details.expire_at}</span> 
+                                        <p className="d-flex row ml-1 my-1">Amount :
+                                            <span className="font-weight-bold ml-2">{mo_details.amount}</span>
                                         </p>
-                                        <p className="d-flex row ml-1 my-1">Return Expire At : 
-                                            <span className="font-weight-bold ml-2">{mo_details.return_expire_at}</span> 
+                                        <p className="d-flex row ml-1 my-1">Delivery Expire At :
+                                            <span className="font-weight-bold ml-2">{mo_details.expire_at}</span>
+                                        </p>
+                                        <p className="d-flex row ml-1 my-1">Return Expire At :
+                                            <span className="font-weight-bold ml-2">{mo_details.return_expire_at}</span>
                                         </p>
                                     </div>
                                     {(mo_details.status !== 'created')
@@ -93,10 +94,10 @@ class MoneyOrderReturn extends Component {
                                     {(mo_details.status === 'created' && !mo_details.is_return_expired)
                                         ? <div className="row justify-content-center">
                                             <div className="col-md-10">
-                                                <div className="mt-4 cart-detail p-3 p-md-3">                                                
+                                                <div className="mt-4 cart-detail p-3 p-md-3">
                                                     {/* <div className="cart-detail p-3 p-md-3"> */}
                                                         <button onClick={this.ReturnMoneyOrder} className="btn btn-info w-100 py-3 px-4">Return</button>
-                                                    {/* </div> */}     
+                                                    {/* </div> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -114,8 +115,8 @@ class MoneyOrderReturn extends Component {
         else{
             alert('Unauthorized Feature. Only for officials use.');
             return (
-                <Redirect to='/' />                
-            )            
+                <Redirect to='/' />
+            )
         }
     }
 }

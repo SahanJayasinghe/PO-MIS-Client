@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class RegPostRouteInfo extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             id: props.id,
             return_route: [],
@@ -16,7 +17,7 @@ class RegPostRouteInfo extends Component {
 
     fetchRouteInfo = (id) => {
         let headers = {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')};
-        axios.get(`http://localhost:5000/registered-post/route-info/${id}`, {headers})
+        axios.get(`${server_baseURL}/registered-post/route-info/${id}`, {headers})
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -31,7 +32,7 @@ class RegPostRouteInfo extends Component {
                     return_route: [],
                     delivery_route: []
                 });
-                handleRequestError(err); 
+                handleRequestError(err);
             })
     }
 
@@ -44,7 +45,7 @@ class RegPostRouteInfo extends Component {
             this.fetchRouteInfo(this.props.id);
         }
     }
-    
+
     render() {
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
@@ -63,7 +64,7 @@ class RegPostRouteInfo extends Component {
                                     <div className="row border-bottom border-info py-2 d-flex justify-content-between d-inline-block">
                                         <span className="font-weight-bold mx-4 text-capitalize">Location</span>
                                         <span className="font-weight-bold mx-4 text-capitalize">Updated At</span>
-                                    </div>                                    
+                                    </div>
                                     {
                                         this.state.return_route.map(el => (
                                             <div key={el[2]} className="row border-bottom py-2 d-flex justify-content-between d-inline-block">

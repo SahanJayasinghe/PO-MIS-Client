@@ -9,13 +9,13 @@ import Poster from '../Poster'
 class ResidentPage extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             address: null,
             resident_key: null
         }
     }
-    
+
     loadAddress = (address, resident_key) => {
         // console.log(address);
         if(address && resident_key){
@@ -23,7 +23,7 @@ class ResidentPage extends Component {
         }
         else if(this.state.address && this.state.resident_key){
             this.setState({address: null, resident_key: null});
-        } 
+        }
     }
 
     render() {
@@ -38,7 +38,7 @@ class ResidentPage extends Component {
                             <div className="col-xl-7">
                                 <ResidentForm loadAddress={this.loadAddress} />
                             </div>
-                            { (address) ?                        
+                            { (address) ?
                                 <div className="col-xl-5">
                                     <div className="row justify-content-center">
                                         <div className="col-md-6 mt-5">
@@ -61,11 +61,11 @@ class ResidentPage extends Component {
                                     <div className="row justify-content-center">
                                         <div className="col-md-8 mt-2">
                                             <div className="alert alert-secondary" role="alert">
-                                                <p>View Details of the postal items sent from or received to this address 
+                                                <p>View Details of the postal items sent from or received to this address
                                                     from the menu shown down below</p>
                                             </div>
                                         </div>
-                                    </div>                            
+                                    </div>
                                 </div>
                                 : <></>
                             }
@@ -89,7 +89,7 @@ class ResidentPage extends Component {
                                     <li className="nav-item mx-2">
                                         <a className="nav-link" id="pills-normalPost" data-toggle="pill" href="#normalPost" role="tab" aria-controls="pills-normalPost" aria-selected="false">Normal Post</a>
                                     </li>
-                                </ul>                        
+                                </ul>
                             </div>
                             <div className="row justify-content-around mt-3">
                                 <div className="tab-content col-md-12" id="pills-tabContent">
@@ -97,7 +97,7 @@ class ResidentPage extends Component {
                                         <ResidentRPLog resident_id = {address[0]} resident_key = {resident_key} />
                                     </div>
                                     <div className="tab-pane fade" id="parcelPost" role="tabpanel" aria-labelledby="pills-parcelPost-tab">
-                                        <ResidentParcelLog resident_id = {address[0]} resident_key = {resident_key} />     
+                                        <ResidentParcelLog resident_id = {address[0]} resident_key = {resident_key} />
                                     </div>
                                     <div className="tab-pane fade" id="normalPost" role="tabpanel" aria-labelledby="pills-normalPost-tab">
                                         <ResidentNPLog resident_id = {address[0]} resident_key = {resident_key} />

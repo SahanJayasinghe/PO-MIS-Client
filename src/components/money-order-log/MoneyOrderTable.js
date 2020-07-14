@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 const axios = require('axios');
 
 class MoneyOrderTable extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             t_headers: props.t_headers,
             money_orders: []
@@ -16,22 +17,22 @@ class MoneyOrderTable extends Component {
         let post_office = localStorage.getItem('user_id');
         axios({
             method: 'post',
-            url: `http://localhost:5000/post-offices/money-orders/${this.props.route}`,
+            url: `${server_baseURL}/post-offices/money-orders/${this.props.route}`,
             data: {post_office, status: this.props.status},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.setState({
                     money_orders: res.data
-                });               
+                });
             })
             .catch(err => {
                 console.log(err);
                 handleRequestError(err);
             })
     }
-    
+
     render() {
         let t_head_style = {
             whiteSpace: "nowrap",

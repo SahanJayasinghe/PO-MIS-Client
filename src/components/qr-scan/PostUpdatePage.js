@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
 import QRScan from './QRScan'
-import PostDetails from './PostDetails'
+// import PostDetails from './PostDetails'
 import Poster from '../Poster';
 import RegPostDetails from './RegPostDetails';
 import ParcelDetails from './ParcelDetails';
@@ -26,11 +26,11 @@ class PostUpdatePage extends Component {
             });
         }
     }
-    
+
     render() {
         console.log('PostUpdatePage render');
-        console.log(localStorage);
-        if(localStorage.getItem('user_type') === 'post_office'){        
+        // console.log(localStorage);
+        if(localStorage.getItem('user_type') === 'post_office'){
             let {type, id} = this.state;
             return (
                 <>
@@ -45,8 +45,8 @@ class PostUpdatePage extends Component {
                                 <span className="d-flex text-light font-weight-bold">Discard post item if it is undeliverable</span>
                             </div>
                         </div>
-                        <hr />                 
-                        <div className="row justify-content-center">                        
+                        <hr />
+                        <div className="row justify-content-center">
                             <QRScan getScanResults={this.getScanResults}/>
                             {(type === 'RegPost')
                                 ? <RegPostDetails id={id} />
@@ -69,8 +69,8 @@ class PostUpdatePage extends Component {
         else{
             alert('Unauthorized Feature. Only for officials use.');
             return (
-                <Redirect to='/' />                
-            )            
+                <Redirect to='/' />
+            )
         }
     }
 }

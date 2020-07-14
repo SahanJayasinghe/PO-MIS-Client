@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {handleRequestError} from '../helpers/error_handler';
+import { server_baseURL } from '../helpers/data';
 const axios = require('axios');
 
 class LogTable extends Component {
@@ -34,12 +35,12 @@ class LogTable extends Component {
     fetchPosts = (data_obj, header_obj) => {
         axios({
             method: 'post',
-            url: `http://localhost:5000/${this.props.route}`,
+            url: `${server_baseURL}/${this.props.route}`,
             data: data_obj,
             headers: header_obj
         })
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.setState({
                     posts: res.data
                 });               

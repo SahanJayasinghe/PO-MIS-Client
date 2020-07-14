@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 const axios = require('axios');
 
 class ConfirmRP extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
             // receiver: ['1', '46', 'Mill Rd', 'Hiriwala', 'kal-eliya', '11160'],
             // sender: ['2', '121/B', 'Temple Rd', 'Rawathawatta', 'moratuwa', '10400']
@@ -35,27 +36,25 @@ class ConfirmRP extends Component {
             });
         }
     }
-    
+
     handleConfirm = () => {
-        console.log(this.state);
+        // console.log(this.state);
         let post_obj = {
             receiver: {id: this.state.receiver[0], name: this.state.receiver_name},
-            // receiver_name: this.props.rp_details.receiver_name,
             sender: {id: this.state.sender[0], name: this.state.sender_name},
-            // sender_name: this.props.rp_details.sender_name,
             price: this.props.rp_details.price,
             speed_post: this.props.rp_details.speed_post,
             post_office: localStorage.getItem('user_id')
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/registered-post',
+            url: `${server_baseURL}/registered-post`,
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                
-                this.props.loadQR(res.data, this.state.receiver, this.state.sender);               
+                console.log(res);
+                this.props.loadQR(res.data, this.state.receiver, this.state.sender);
             })
             .catch(err => {
                 console.log(err);
@@ -67,7 +66,7 @@ class ConfirmRP extends Component {
         const {receiver, sender, receiver_name, sender_name} = this.state;
         return (
             <div className="col-xl-8">
-                <div className="row mt-5 pt-3">                    
+                <div className="row mt-5 pt-3">
                     <div className="col-md-12 d-flex mb-5">
                         <div className="col-md-6">
                             <div className="cart-detail cart-total p-3 p-md-3">
@@ -80,16 +79,16 @@ class ConfirmRP extends Component {
                                 }
                                 {/* <p className="d-flex"> <span>{receiver.number},</span> </p>
                                 {
-                                    (receiver.street !== null) 
+                                    (receiver.street !== null)
                                         ? <p className="d-flex"> <span>{receiver.street},</span> </p>
                                         : <p></p>
                                 }
                                 {
-                                    (receiver.sub_area !== null) 
+                                    (receiver.sub_area !== null)
                                         ? <p className="d-flex"> <span>{receiver.sub_area},</span> </p>
                                         : <p></p>
-                                }                                								
-                                <p className="d-flex"> <span>{receiver.postal_area},</span> </p>					
+                                }
+                                <p className="d-flex"> <span>{receiver.postal_area},</span> </p>
                                 <p className="d-flex"> <span>{receiver.postal_code}</span> </p> */}
                             </div>
                         </div>
@@ -104,19 +103,19 @@ class ConfirmRP extends Component {
                                 }
                                 {/* <p className="d-flex"> <span>{sender.number},</span> </p>
                                 {
-                                    (sender.street !== null) 
+                                    (sender.street !== null)
                                         ? <p className="d-flex"> <span>{sender.street},</span> </p>
                                         : <p></p>
                                 }
                                 {
-                                    (sender.sub_area !== null) 
+                                    (sender.sub_area !== null)
                                         ? <p className="d-flex"> <span>{sender.sub_area},</span> </p>
                                         : <p></p>
-                                }                                								
-                                <p className="d-flex"> <span>{sender.postal_area},</span> </p>					
+                                }
+                                <p className="d-flex"> <span>{sender.postal_area},</span> </p>
                                 <p className="d-flex"> <span>{sender.postal_code}</span> </p> */}
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div className="col-xl-12">
                         <div className="row justify-content-center">
@@ -126,7 +125,7 @@ class ConfirmRP extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>             
+                    </div>
                 </div>
             </div>
         )

@@ -1,33 +1,34 @@
 import React, { Component } from 'react'
 import '../../custom_styles/checkboxstyle.css'
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 const axios = require('axios');
 
 class AddressFormRP extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
             receiver_name: '',
             receiver_number: '',
             rec_postal_code: 'sel_default',
             sender_name: '',
             sender_number: '',
-            sen_postal_code: 'sel_default',  
+            sen_postal_code: 'sel_default',
             price: '',
-            speed_post: false,       
+            speed_post: false,
             area_list: []
         }
     }
-    
+
     componentDidMount(){
-        axios.get('http://localhost:5000/postal-areas', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        axios.get(`${server_baseURL}/postal-areas`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.setState({
                     area_list: res.data
-                });                           
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -36,7 +37,7 @@ class AddressFormRP extends Component {
     }
 
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
@@ -47,7 +48,7 @@ class AddressFormRP extends Component {
         this.setState(
             {
             price: event.target.value
-            }, 
+            },
             () => {
                 console.log(`callback fn... ${this.state.price}`);
             }
@@ -75,13 +76,13 @@ class AddressFormRP extends Component {
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/registered-post/address',
+            url: `${server_baseURL}/registered-post/address`,
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                
-                this.props.loadConfirmation(res.data, rp_details);               
+                console.log(res);
+                this.props.loadConfirmation(res.data, rp_details);
             })
             .catch(err => {
                 console.log(err);
@@ -101,12 +102,12 @@ class AddressFormRP extends Component {
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label htmlFor="postcodezip">Name (Receiver)</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     name="receiver_name"
-                                    value={receiver_name} 
-                                    onChange={this.handleInput}                                
-                                    className="form-control" 
+                                    value={receiver_name}
+                                    onChange={this.handleInput}
+                                    className="form-control"
                                     placeholder="Enter Reciever's Name"
                                     minLength="1"
                                     maxLength="50"
@@ -118,12 +119,12 @@ class AddressFormRP extends Component {
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label htmlFor="postcodezip">House Number (Receiver)</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     name="receiver_number"
-                                    value={receiver_number} 
-                                    onChange={this.handleInput}                                
-                                    className="form-control" 
+                                    value={receiver_number}
+                                    onChange={this.handleInput}
+                                    className="form-control"
                                     placeholder="Enter house number ex:123/A"
                                     minLength="1"
                                     maxLength="50"
@@ -131,31 +132,31 @@ class AddressFormRP extends Component {
                                     required
                                 />
                             </div>
-                        </div>                    
+                        </div>
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label htmlFor="country">Postal Area (Receiver)</label>
                                 <div className="select-wrap">
                                     <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                    <select 
+                                    <select
                                         name="rec_postal_code"
-                                        value={rec_postal_code} 
+                                        value={rec_postal_code}
                                         onChange={this.handleInput}
-                                        title="Choose a Postal Area" 
+                                        title="Choose a Postal Area"
                                         className="form-control"
                                         required
-                                        // dataWidth="auto" 
+                                        // dataWidth="auto"
                                         // dataLiveSearch="true"
                                     >
                                         <option value="sel_default" disabled>Select a postal area</option>
                                         {
                                             area_list.map(area => (
-                                                <option key={area.code} value={area.code}>                                                                                                        
+                                                <option key={area.code} value={area.code}>
                                                     {area.name}, {area.code}
                                                 </option>
                                                 )
                                             )
-                                        }                                        
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -166,12 +167,12 @@ class AddressFormRP extends Component {
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label htmlFor="postcodezip">Name (Sender)</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     name="sender_name"
-                                    value={sender_name} 
-                                    onChange={this.handleInput}                                
-                                    className="form-control" 
+                                    value={sender_name}
+                                    onChange={this.handleInput}
+                                    className="form-control"
                                     placeholder="Enter Sender's Name"
                                     minLength="1"
                                     maxLength="50"
@@ -183,12 +184,12 @@ class AddressFormRP extends Component {
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label htmlFor="postcodezip">House Number (Sender)</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     name="sender_number"
-                                    value={sender_number} 
-                                    onChange={this.handleInput}                                
-                                    className="form-control" 
+                                    value={sender_number}
+                                    onChange={this.handleInput}
+                                    className="form-control"
                                     placeholder="Enter house number ex:123/A"
                                     minLength="1"
                                     maxLength="50"
@@ -196,20 +197,20 @@ class AddressFormRP extends Component {
                                     required
                                 />
                             </div>
-                        </div>                    
+                        </div>
                         <div className="col-md-8">
                             <div className="form-group">
                                 <label htmlFor="country">Postal Area (Sender)</label>
                                 <div className="select-wrap">
                                     <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                    <select 
+                                    <select
                                         name="sen_postal_code"
-                                        value={sen_postal_code} 
+                                        value={sen_postal_code}
                                         onChange={this.handleInput}
-                                        title="Choose a Postal Area" 
+                                        title="Choose a Postal Area"
                                         className="form-control"
                                         required
-                                        // dataWidth="auto" 
+                                        // dataWidth="auto"
                                         // dataLiveSearch="true"
                                     >
                                         <option value="sel_default" disabled>Select a postal area</option>
@@ -220,7 +221,7 @@ class AddressFormRP extends Component {
                                                 </option>
                                                 )
                                             )
-                                        }                                        
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -232,16 +233,16 @@ class AddressFormRP extends Component {
                         <div className="col-md-4">
                             <div className="form-group">
                                 <label htmlFor="postcodezip">Letter Price</label>
-                                <input 
-                                    type="number" 
+                                <input
+                                    type="number"
                                     name="price"
-                                    value={price} 
+                                    value={price}
                                     onChange={this.handleInput}
-                                    onBlur={this.addDecimals}                          
+                                    onBlur={this.addDecimals}
                                     min="0"
                                     step="0.01"
                                     max="1000"
-                                    className="form-control" 
+                                    className="form-control"
                                     placeholder="Enter price ex: 16.50"
                                     // pattern = '^[0-9]\d*(?:\.\d{2})?$'
                                     required
@@ -251,9 +252,9 @@ class AddressFormRP extends Component {
                         <div className="col-md-4">
                             <div className="form-group mt-4">
                                 <div className="row justify-content-center">
-                                    <div className="custom-control custom-checkbox checkbox-xl">                               
-                                        <input 
-                                        name="speed_post" 
+                                    <div className="custom-control custom-checkbox checkbox-xl">
+                                        <input
+                                        name="speed_post"
                                         type="checkbox"
                                         id="cb3"
                                         className="custom-control-input"
@@ -261,7 +262,7 @@ class AddressFormRP extends Component {
                                         onChange={this.markSpeedPost}
                                         />
                                         {' '}
-                                        <label className="custom-control-label" htmlFor="cb3">Speed Post</label> 
+                                        <label className="custom-control-label" htmlFor="cb3">Speed Post</label>
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +277,7 @@ class AddressFormRP extends Component {
                                     <p><button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button></p>
                                 </div>
                             </div>
-                        </div>	
+                        </div>
                     </div>
                 </div>
             </form>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import QrReader from 'react-qr-reader'
- 
+
 class QRScan extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             show_scanner: false,
             ClickFn: this.loadScanner,
@@ -30,7 +30,7 @@ class QRScan extends Component {
             btnName: 'Scan QR Code'
         })
     }
-  
+
     handleScan = data => {
         if (data) {
             this.setState({
@@ -44,7 +44,7 @@ class QRScan extends Component {
             if(qr_content.length === 1){
                 this.props.getScanResults(null, null);
                 alert('Invalid QR Code');
-            }            
+            }
             else{
                 let type_content = qr_content[0].split('=');
                 let id_content = qr_content[1].split('=');
@@ -58,16 +58,16 @@ class QRScan extends Component {
                         this.props.getScanResults(null, null);
                         alert('Invalid QR Code');
                     }
-                    
+
                 }
                 else{
                     this.props.getScanResults(null, null);
                     alert('Invalid QR Code');
-                }                
+                }
             }
         }
     }
-    
+
     handleError = err => {
         console.error(err)
     }
@@ -100,8 +100,8 @@ class QRScan extends Component {
                                     onError={this.handleError}
                                     onScan={this.handleScan}
                                     style={{ width: '100%', height: '100%' }}
-                                />                            
-                            </div>                   
+                                />
+                            </div>
                         </div>
                     : <div className="row align-items-center justify-content-center" style={div_style}>
                         <span className="text-dark">Scanning Area</span>
@@ -119,7 +119,7 @@ class QRScan extends Component {
                 {/* <div className="row justify-content-center mt-3">
                     <p className="d-flex text-center">{this.state.result}</p>
                 </div> */}
-            </div>                
+            </div>
         )
     }
 }

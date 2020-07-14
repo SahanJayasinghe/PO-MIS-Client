@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class ConfirmParcel extends Component {
 
@@ -39,7 +40,7 @@ class ConfirmParcel extends Component {
 
         axios({
             method: 'post',
-            url: 'http://localhost:5000/parcel-post',
+            url: `${server_baseURL}/parcel-post`,
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })

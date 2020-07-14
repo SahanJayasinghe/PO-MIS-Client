@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class ResidentNPLog extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             resident_id: props.resident_id,
             resident_key: props.resident_key,
@@ -16,16 +17,16 @@ class ResidentNPLog extends Component {
     fetchNormalPosts = (resident_id, resident_key) => {
         axios({
             method: 'post',
-            url: `http://localhost:5000/resident-details/normal-posts`,
+            url: `${server_baseURL}/resident-details/normal-posts`,
             data: {resident_id, resident_key},
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
             .then(res => {
                 console.log(res);
-                this.setState({resident_id, resident_key, np_obj: res.data});                      
+                this.setState({resident_id, resident_key, np_obj: res.data});
             })
             .catch(err => {
-                console.log(err);                              
+                console.log(err);
                 handleRequestError(err);
             })
     }
@@ -41,10 +42,10 @@ class ResidentNPLog extends Component {
             this.fetchNormalPosts(resident_id, resident_key);
         }
     }
-    
+
     render() {
         const {np_obj} = this.state;
-        return (               
+        return (
             <div className="row justify-content-center">
                 { (np_obj)
                     ? <div className="col-lg-4 alert alert-success" role="alert">
@@ -66,7 +67,7 @@ class ResidentNPLog extends Component {
                         <small className="text-muted">No Records Found</small>
                     </h5>
                 }
-            </div>           
+            </div>
         )
     }
 }

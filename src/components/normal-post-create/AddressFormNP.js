@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 const axios = require('axios');
 
-class AddressFormNP extends Component{    
+class AddressFormNP extends Component{
 
     constructor(props){
         super(props);
@@ -11,21 +12,21 @@ class AddressFormNP extends Component{
             house_number: '',
             postal_code: 'sel_default',
             price: '',
-            area_list: []            
+            area_list: []
         };
     }
-    
+
     componentDidMount(){
-        axios.get('http://localhost:5000/postal-areas', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        axios.get(`${server_baseURL}/postal-areas`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
-                console.log(res);                
+                console.log(res);
                 this.setState({
                     area_list: res.data
-                });                               
+                });
             })
             .catch(err => {
                 console.log(err);
-                handleRequestError(err);                
+                handleRequestError(err);
             })
     }
 
@@ -33,7 +34,7 @@ class AddressFormNP extends Component{
         this.setState(
             {
             house_number: event.target.value
-            }, 
+            },
             () => {
                 // console.log(`callback fn... ${this.state.house_number}`);
             }
@@ -60,7 +61,7 @@ class AddressFormNP extends Component{
         this.setState(
             {
             price: event.target.value
-            }, 
+            },
             () => {
                 console.log(`callback fn... ${this.state.price}`);
             }
@@ -69,23 +70,23 @@ class AddressFormNP extends Component{
 
     handleSubmit = (event) => {
         // console.log(this.state);
-        event.preventDefault();               
+        event.preventDefault();
         let post_obj = {
             number: this.state.house_number,
             postal_code: this.state.postal_code
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/addresses/confirm',
+            url: `${server_baseURL}/addresses/confirm`,
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                    
-                this.props.loadConfirmation(res.data, this.state.price);               
+                console.log(res);
+                this.props.loadConfirmation(res.data, this.state.price);
             })
             .catch(err => {
-                console.log(err);                    
+                console.log(err);
                 this.props.loadConfirmation();
                 handleRequestError(err);
             })
@@ -97,23 +98,23 @@ class AddressFormNP extends Component{
 
     render(){
         const {house_number, postal_code, price, area_list} = this.state;
-        return(         
+        return(
             <form onSubmit={this.handleSubmit} className="billing-form">
-                <h3 className="mb-4 billing-heading">Fill in Letter Details</h3>						
+                <h3 className="mb-4 billing-heading">Fill in Letter Details</h3>
                 <div className="col-md-8">
                     <div className="form-group">
                         <label htmlFor="postcodezip">House Number</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             name="house_number"
-                            value={house_number} 
+                            value={house_number}
                             onChange={this.handleHouseNumber}
                             onBlur={this.validate}
-                            className="form-control" 
+                            className="form-control"
                             placeholder="Enter house number ex:123/A"
                             minLength="1"
                             maxLength="50"
-                            pattern = '^(?=.*[A-Za-z0-9])[A-Za-z\d\-/,\\]{1,50}$'                            
+                            pattern = '^(?=.*[A-Za-z0-9])[A-Za-z\d\-/,\\]{1,50}$'
                             required
                         />
                     </div>
@@ -124,20 +125,20 @@ class AddressFormNP extends Component{
                         <label htmlFor="country">Postal Area</label>
                         <div className="select-wrap">
                             <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                            <select 
+                            <select
                                 name="postal_code"
-                                value={postal_code} 
+                                value={postal_code}
                                 onChange={this.handlePostalCode}
-                                title="Choose a Postal Area" 
+                                title="Choose a Postal Area"
                                 className="form-control"
                                 required
-                                // dataWidth="auto" 
+                                // dataWidth="auto"
                                 // dataLiveSearch="true"
                             >
                                 <option value="sel_default" disabled>Select a postal area</option>
                                 {
                                     area_list.map(area => (
-                                        <option key={area.code} value={area.code}>                                                                                        
+                                        <option key={area.code} value={area.code}>
                                             {area.name}, {area.code}
                                         </option>
                                         )
@@ -156,22 +157,22 @@ class AddressFormNP extends Component{
                 <div className="col-md-8">
                     <div className="form-group">
                         <label htmlFor="postcodezip">Letter Price</label>
-                        <input 
-                            type="number" 
+                        <input
+                            type="number"
                             name="price"
-                            value={price} 
+                            value={price}
                             onChange={this.handlePrice}
-                            onBlur={this.addDecimals}                          
+                            onBlur={this.addDecimals}
                             min="0"
                             step="0.01"
                             max="1000"
-                            className="form-control" 
+                            className="form-control"
                             placeholder="Enter price ex: 16.50"
                             // pattern = '^[0-9]\d*(?:\.\d{2})?$'
                             required
                         />
                     </div>
-                </div>                    
+                </div>
                 {/* <div className="w-100"></div> */}
                 <div className="col-md-8">
                     <div className="form-group mt-4">
@@ -181,12 +182,12 @@ class AddressFormNP extends Component{
                                     <p><button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button></p>
                                 {/* </div> */}
                             </div>
-                        </div>	
+                        </div>
                     </div>
                 </div>
             </form>
         );
-    }    
+    }
 }
 
 export default AddressFormNP;

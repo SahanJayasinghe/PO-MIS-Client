@@ -2,21 +2,22 @@ import React, { Component } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
+import { server_baseURL } from '../../../helpers/data';
 
 class ChangePostalArea extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             code: '',
             name: '',
             prev_code: null,
             prev_name: null
         }
-    }    
+    }
 
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
@@ -37,18 +38,18 @@ class ChangePostalArea extends Component {
         let {code, name, prev_code} = this.state;
         axios({
             method: 'put',
-            url: `http://localhost:5000/postal-areas`,
+            url: `${server_baseURL}/postal-areas`,
             data: {code, name, prev_code},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.props.changeProvince(code);
-                alert(res.data);                        
+                alert(res.data);
             })
             .catch(err => {
                 console.log(err);
-                // this.props.toggle();                              
+                // this.props.toggle();
                 handleRequestError(err);
             })
     }
@@ -69,13 +70,13 @@ class ChangePostalArea extends Component {
                             <div className="col-md-8">
                                 <div className="form-group">
                                     <label htmlFor="postcodezip">Postal Area Code</label>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         name="code"
-                                        value={code} 
-                                        onChange={this.handleInput}                                
-                                        className="form-control" 
-                                        placeholder="Enter 5 digit code ex: 10400"                                                
+                                        value={code}
+                                        onChange={this.handleInput}
+                                        className="form-control"
+                                        placeholder="Enter 5 digit code ex: 10400"
                                         pattern = '^\d{5}$'
                                         required
                                     />
@@ -86,12 +87,12 @@ class ChangePostalArea extends Component {
                             <div className="col-md-8">
                                 <div className="form-group">
                                     <label htmlFor="postcodezip">Postal Area Name</label>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         name="name"
-                                        value={name} 
-                                        onChange={this.handleInput}                                
-                                        className="form-control" 
+                                        value={name}
+                                        onChange={this.handleInput}
+                                        className="form-control"
                                         placeholder="Enter Area Name"
                                         minLength="1"
                                         maxLength="20"
@@ -102,10 +103,10 @@ class ChangePostalArea extends Component {
                         </div>
                         <div className="row justify-content-center">
                             <div className="col-md-8">
-                                <div className="form-group mt-4 cart-detail p-3 p-md-3">                                                
+                                <div className="form-group mt-4 cart-detail p-3 p-md-3">
                                     {/* <div className="cart-detail p-3 p-md-3"> */}
                                         <button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button>
-                                    {/* </div> */}     
+                                    {/* </div> */}
                                 </div>
                             </div>
                         </div>

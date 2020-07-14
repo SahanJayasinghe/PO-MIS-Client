@@ -3,11 +3,12 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
 import Poster from '../../Poster';
+import { server_baseURL } from '../../../helpers/data';
 
 class CreatePostalAccount extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             postal_code: 'sel_default',
             password: '',
@@ -16,41 +17,42 @@ class CreatePostalAccount extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/postal-areas/no-account', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        let header_obj = {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')};
+        axios.get(`${server_baseURL}/postal-areas/no-account`, {headers: header_obj})
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.setState({
                     area_list: res.data
-                });                               
+                });
             })
             .catch(err => {
                 console.log(err);
-                handleRequestError(err);                
+                handleRequestError(err);
             })
     }
 
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
-    
+
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
         let {postal_code, password} = this.state;
         axios({
             method: 'put',
-            url: `http://localhost:5000/post-offices`,
+            url: `${server_baseURL}/post-offices`,
             data: {code: postal_code, password},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);
-                alert(res.data);                      
+                // console.log(res);
+                alert(res.data);
             })
             .catch(err => {
-                console.log(err);                              
+                console.log(err);
                 handleRequestError(err);
             })
     }
@@ -59,7 +61,7 @@ class CreatePostalAccount extends Component {
         if(localStorage.getItem('user_type') === 'admin'){
             const {postal_code, password, area_list} = this.state;
             console.log('CreatePostalAccount render');
-            
+
             return (
                 <>
                 <Poster type="Postal Account" description="Create a Postal Account" />
@@ -75,25 +77,25 @@ class CreatePostalAccount extends Component {
                                                 <label htmlFor="country">Postal Area</label>
                                                 <div className="select-wrap">
                                                     <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                                    <select 
-                                                        name="postal_code"                                 
-                                                        value={postal_code} 
+                                                    <select
+                                                        name="postal_code"
+                                                        value={postal_code}
                                                         onChange={this.handleInput}
-                                                        title="Choose a Postal Area" 
+                                                        title="Choose a Postal Area"
                                                         className="form-control"
                                                         required
                                                     >
                                                         <option value="sel_default" disabled>Select a postal area</option>
                                                         {
                                                             area_list.map(area => (
-                                                                <option 
-                                                                    key={area.code} 
+                                                                <option
+                                                                    key={area.code}
                                                                     value={area.code}>
                                                                     {area.name}, {area.code}
                                                                 </option>
                                                                 )
                                                             )
-                                                        }                                                    
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
@@ -101,27 +103,27 @@ class CreatePostalAccount extends Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label htmlFor="postcodezip">Password</label>
-                                                <input 
-                                                    type="password" 
+                                                <input
+                                                    type="password"
                                                     name="password"
-                                                    value={password} 
-                                                    onChange={this.handleInput}                                
-                                                    className="form-control" 
+                                                    value={password}
+                                                    onChange={this.handleInput}
+                                                    className="form-control"
                                                     placeholder="Enter Password"
                                                     minLength="6"
                                                     maxLength="20"
                                                     pattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&^_+\-=])[A-Za-z\d@$!%*#?&^_+\-=]{6,20}$"
                                                     required
                                                 />
-                                            </div>                                        
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="row justify-content-center">
                                         <div className="col-md-8">
-                                            <div className="form-group mt-4 cart-detail p-3 p-md-3">                                                
+                                            <div className="form-group mt-4 cart-detail p-3 p-md-3">
                                                 {/* <div className="cart-detail p-3 p-md-3"> */}
                                                     <button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button>
-                                                {/* </div> */}     
+                                                {/* </div> */}
                                             </div>
                                         </div>
                                     </div>

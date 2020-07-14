@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class ParcelRouteInfo extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             id: props.id,
             delivery_route: []
@@ -15,7 +16,7 @@ class ParcelRouteInfo extends Component {
 
     fetchRouteInfo = (id) => {
         let headers = {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')};
-        axios.get(`http://localhost:5000/parcel-post/route-info/${id}`, {headers})
+        axios.get(`${server_baseURL}/parcel-post/route-info/${id}`, {headers})
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -28,7 +29,7 @@ class ParcelRouteInfo extends Component {
                 this.setState({
                     delivery_route: []
                 });
-                handleRequestError(err); 
+                handleRequestError(err);
             })
     }
 
@@ -41,7 +42,7 @@ class ParcelRouteInfo extends Component {
             this.fetchRouteInfo(this.props.id);
         }
     }
-    
+
     render() {
         return (
             <Modal show={this.props.show} onHide={this.props.toggle}>
@@ -53,7 +54,7 @@ class ParcelRouteInfo extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row justify-content-center">
-                        <div className="col-md-10">                            
+                        <div className="col-md-10">
                             <h4 className="billing-heading mt-2 mb-2 text-center text-info">Delivery Route</h4>
                             {(this.state.delivery_route.length)
                                 ? <>

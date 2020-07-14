@@ -6,7 +6,7 @@ class QRUpload extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
             img_data_uri: null,
             img_name: null
@@ -19,7 +19,7 @@ class QRUpload extends Component {
             img_data_uri:  URL.createObjectURL(files[0]),
             img_name: files[0].name
         });
-        
+
     }
 
     imgLoad = ({target:img}) => {
@@ -59,7 +59,7 @@ class QRUpload extends Component {
             img_name: event.target.files[0].name
         });
     }
-    
+
     render() {
         // const files = this.state.files.map(file => (
         //     <li key={file.name}>
@@ -97,19 +97,19 @@ class QRUpload extends Component {
                                     {!isDragActive && <p>Drag 'n' Drop QR Code here, or Click to select file</p>}
                                     {isDragActive && !isDragReject && <p className="text-success mt-2">"Drop it right there..."</p>}
                                     {isDragReject && <p className="text-danger mt-2">"File type not accepted !!!"</p>}
-                                </div>                                
+                                </div>
                             </section>
                             )}
                         </Dropzone>
                     </div>
                     {/* <div className="row justify-content-center">
-                        <input type="file" onChange={this.handleChange}/>                        
-                    </div> */}                    
+                        <input type="file" onChange={this.handleChange}/>
+                    </div> */}
                     {
-                        (this.state.img_name) ? 
+                        (this.state.img_name) ?
                             <>
                             <br />
-                            <div className="row justify-content-center">                                
+                            <div className="row justify-content-center">
                                 <img onLoad={this.imgLoad} src={this.state.img_data_uri} alt="img-preview"/>
                             </div>
                             <div className="row justify-content-center">
@@ -117,7 +117,7 @@ class QRUpload extends Component {
                             </div>
                             </>
                             : <></>
-                    }                    
+                    }
                 </div>
             </section>
         )

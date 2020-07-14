@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class AddressFormParcel extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
             receiver_name: '',
             house_number: '',
@@ -16,23 +17,23 @@ class AddressFormParcel extends Component {
             area_list: []
         }
     }
-    
+
     componentDidMount(){
-        axios.get('http://localhost:5000/postal-areas', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        axios.get(`${server_baseURL}/postal-areas`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.setState({
                     area_list: res.data
-                });                               
+                });
             })
             .catch(err => {
                 console.log(err);
-                handleRequestError(err);                
+                handleRequestError(err);
             })
     }
 
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
@@ -43,7 +44,7 @@ class AddressFormParcel extends Component {
         this.setState(
             {
             payment: event.target.value
-            }, 
+            },
             () => {
                 console.log(`callback fn... ${this.state.payment}`);
             }
@@ -59,16 +60,16 @@ class AddressFormParcel extends Component {
         }
         axios({
             method: 'post',
-            url: 'http://localhost:5000/addresses/confirm',
+            url: `${server_baseURL}/addresses/confirm`,
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                    
-                this.props.loadConfirmation(res.data, this.state.receiver_name, this.state.payment, this.state.descript);               
+                console.log(res);
+                this.props.loadConfirmation(res.data, this.state.receiver_name, this.state.payment, this.state.descript);
             })
             .catch(err => {
-                console.log(err);                    
+                console.log(err);
                 this.props.loadConfirmation();
                 handleRequestError(err);
             })
@@ -78,17 +79,17 @@ class AddressFormParcel extends Component {
         const {receiver_name, house_number, postal_code, payment, descript, area_list} = this.state;
         return (
             <form onSubmit={this.handleSubmit} className="billing-form">
-                <h3 className="mb-4 billing-heading">Fill in Parcel Details</h3>                
+                <h3 className="mb-4 billing-heading">Fill in Parcel Details</h3>
                 <div className="row justify-content-between">
                     <div className="col-md-6">
                         <div className="form-group">
                             <label htmlFor="postcodezip">Receiver Name</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 name="receiver_name"
-                                value={receiver_name} 
-                                onChange={this.handleInput}                                
-                                className="form-control" 
+                                value={receiver_name}
+                                onChange={this.handleInput}
+                                className="form-control"
                                 placeholder="Enter Reciever's Name"
                                 minLength="1"
                                 maxLength="50"
@@ -96,16 +97,16 @@ class AddressFormParcel extends Component {
                                 required
                             />
                         </div>
-                    </div>						
+                    </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label htmlFor="postcodezip">House Number</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 name="house_number"
-                                value={house_number} 
-                                onChange={this.handleInput}                            
-                                className="form-control" 
+                                value={house_number}
+                                onChange={this.handleInput}
+                                className="form-control"
                                 placeholder="Enter house number ex:123/A"
                                 minLength="1"
                                 maxLength="50"
@@ -114,22 +115,22 @@ class AddressFormParcel extends Component {
                             />
                         </div>
                     </div>
-                </div>                                
-                {/* <div className="w-100"></div> */}                
+                </div>
+                {/* <div className="w-100"></div> */}
                 <div className="row justify-content-between">
                     <div className="col-md-6">
                         <div className="form-group">
                             <label htmlFor="country">Postal Area</label>
                             <div className="select-wrap">
                                 <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                <select 
-                                    name="postal_code"                                 
-                                    value={postal_code} 
+                                <select
+                                    name="postal_code"
+                                    value={postal_code}
                                     onChange={this.handleInput}
-                                    title="Choose a Postal Area" 
+                                    title="Choose a Postal Area"
                                     className="form-control"
                                     required
-                                    // dataWidth="auto" 
+                                    // dataWidth="auto"
                                     // dataLiveSearch="true"
                                 >
                                     <option value="sel_default" disabled>Select a postal area</option>
@@ -154,16 +155,16 @@ class AddressFormParcel extends Component {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label htmlFor="postcodezip">Parcel Payment</label>
-                            <input 
-                                type="number" 
+                            <input
+                                type="number"
                                 name="payment"
-                                value={payment} 
+                                value={payment}
                                 onChange={this.handleInput}
-                                onBlur={this.addDecimals}                          
+                                onBlur={this.addDecimals}
                                 min="0"
                                 step="0.01"
                                 max="1000"
-                                className="form-control" 
+                                className="form-control"
                                 placeholder="Enter amount ex: 16.50"
                                 // pattern = '^[0-9]\d*(?:\.\d{2})?$'
                                 required
@@ -177,16 +178,16 @@ class AddressFormParcel extends Component {
                             <label htmlFor="postcodezip">Parcel Description <span className="text-info">(Optional)</span></label>
                             <textarea
                                 name="descript"
-                                value={descript} 
-                                onChange={this.handleInput}                            
-                                className="form-control" 
-                                placeholder="any notes..." 
+                                value={descript}
+                                onChange={this.handleInput}
+                                className="form-control"
+                                placeholder="any notes..."
                                 minLength="1"
-                                maxLength="1024"                           
+                                maxLength="1024"
                             />
                         </div>
-                    </div> 
-                </div>                   
+                    </div>
+                </div>
                 {/* <div className="w-100"></div> */}
                 <div className="row justify-content-center">
                     <div className="col-md-8">
@@ -197,7 +198,7 @@ class AddressFormParcel extends Component {
                                         <p><button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button></p>
                                     {/* </div> */}
                                 </div>
-                            </div>	
+                            </div>
                         </div>
                     </div>
                 </div>

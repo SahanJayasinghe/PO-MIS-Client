@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { handleRequestError } from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class PostDetails extends Component {
     constructor(props) {
@@ -14,8 +15,8 @@ class PostDetails extends Component {
             // post_details: {
             //     receiver_address: ['Arthur', '46', 'Mill Rd', 'Hiriwala', 'kal-eliya', '11160'],
             //     // sender_address: null,
-            //     sender_address: ['John W.', '121/B', '1st lane', 'rawathawatta', 'Moratuwa', '10400'],                
-            //     speed_post: true,                
+            //     sender_address: ['John W.', '121/B', '1st lane', 'rawathawatta', 'Moratuwa', '10400'],
+            //     speed_post: true,
             //     status: ['on-route-receiver', 'On route to Receiver'],
             //     posted_on: '2020-05-02 10:49:21',
             //     last_location: 'Maradana,01000',
@@ -29,7 +30,7 @@ class PostDetails extends Component {
         this.loadPostDetails(this.props.type, this.props.id);
     }
 
-    componentDidUpdate(prevProps){        
+    componentDidUpdate(prevProps){
         if((prevProps.type !== this.props.type) || (prevProps.id !== this.props.id)){
             console.log('PostDetails componentDidUpdate');
             // this.setState({
@@ -50,7 +51,7 @@ class PostDetails extends Component {
 
     loadPostDetails = (type, id) => {
         let route = this.get_route(type);
-        axios.get(`http://localhost:5000/${route}/${id}`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})          
+        axios.get(`${server_baseURL}/${route}/${id}`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -62,17 +63,17 @@ class PostDetails extends Component {
             .catch(err => {
                 console.log(err);
                 this.setState({post_details: null});
-                handleRequestError(err); 
+                handleRequestError(err);
             })
     }
 
     handleUpdate = (event) => {
         let post_office = localStorage.getItem('user_id');
         let {id, type} = this.state;
-        let route = this.get_route(type);       
+        let route = this.get_route(type);
         axios({
             method: 'put',
-            url: `http://localhost:5000/${route}/location-update`,
+            url: `${server_baseURL}/${route}/location-update`,
             data: {id, post_office},
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
@@ -88,18 +89,18 @@ class PostDetails extends Component {
                 });
             })
             .catch(err => {
-                console.log(err);                
-                handleRequestError(err); 
+                console.log(err);
+                handleRequestError(err);
             })
     }
 
     handleReturn = (event) => {
         let post_office = localStorage.getItem('user_id');
         let {id, type} = this.state;
-        if(type === 'RegPost') {        
+        if(type === 'RegPost') {
             axios({
                 method: 'put',
-                url: `http://localhost:5000/registered-post/send-back`,
+                url: `${server_baseURL}/registered-post/send-back`,
                 data: {id, post_office},
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             })
@@ -113,16 +114,16 @@ class PostDetails extends Component {
                     });
                 })
                 .catch(err => {
-                    console.log(err);                
-                    handleRequestError(err); 
+                    console.log(err);
+                    handleRequestError(err);
                 })
         }
     }
 
     handleDiscard = (event) => {
-        
+
     }
-    
+
     render() {
         console.log('PostDetails Render');
         console.log(this.state);
@@ -136,7 +137,7 @@ class PostDetails extends Component {
 
             let {receiver, sender, speed_post, status} = this.state.post_details;
             let {posted_on, last_location, last_update, attempts_receiver, attempts_sender} = this.state.post_details;
-            
+
             let details;
             let should_update;
             let should_return;
@@ -163,8 +164,8 @@ class PostDetails extends Component {
                     }
                     <span className="d-flex"> Posted At :<span className="font-weight-bold ml-2"> {posted_on} </span> </span>
                 </div>;
-                
-                let status_check = (['on-route-receiver', 'on-route-sender'].includes(status[0]));                
+
+                let status_check = (['on-route-receiver', 'on-route-sender'].includes(status[0]));
                 let post_office_check = (last_location.split(',')[1] !== post_office);
                 should_update = (status_check && post_office_check);
                 should_return = (status[0] === 'receiver-unavailable' && attempts_receiver > 0 && receiver[receiver.length - 1] === post_office);
@@ -179,7 +180,7 @@ class PostDetails extends Component {
                     { (status[0] !== 'on-route-receiver')
                         ? <span className="d-flex"> # Delivery Attempts :<span className="font-weight-bold ml-2"> {attempts_receiver} </span> </span>
                         : <></>
-                    }                    
+                    }
                     <span className="d-flex"> Posted At :<span className="font-weight-bold ml-2"> {`${posted_on}  ${posted_location}`} </span> </span>
                 </div>;
 
@@ -188,7 +189,7 @@ class PostDetails extends Component {
                 should_return = false;
                 should_discard = (status[0] === 'receiver-unavailable' && attempts_receiver > 0 && receiver[receiver.length - 1] === post_office);
             }
-            
+
             return (
                 <div className="col-md-8">
                     <div className="row justify-content-center">
@@ -199,35 +200,35 @@ class PostDetails extends Component {
                             : <></>
                         }
                         </h3>
-                    </div>                     
+                    </div>
                     {details}
-                    <div className="row mt-3 pt-2">                                       
+                    <div className="row mt-3 pt-2">
                         <div className="col-md-12 mb-4">
-                            <div className="row justify-content-center">                  
+                            <div className="row justify-content-center">
                                 <div className="col-md-6">
                                     <div className="cart-detail cart-total p-3 p-md-3">
-                                        <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>                                    
+                                        <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>
                                         {
                                             receiver.map((el, idx) => (
                                                 <p key={idx} className="d-flex"> <span>{el},</span> </p>
                                             ))
-                                        }                                
+                                        }
                                     </div>
                                 </div>
                                 {
                                     (sender) ?
                                         <div className="col-md-6">
                                             <div className="cart-detail cart-total p-3 p-md-3">
-                                                <h3 className="billing-heading mb-3 text-center">Sender Address</h3>                                            
+                                                <h3 className="billing-heading mb-3 text-center">Sender Address</h3>
                                                 {
                                                     sender.map((el, idx) => (
                                                         <p key={idx} className="d-flex"> <span>{el},</span> </p>
                                                     ))
-                                                }                                
+                                                }
                                             </div>
                                         </div>
                                         : <></>
-                                }                        
+                                }
                             </div>
                         </div>
                         {
@@ -268,7 +269,7 @@ class PostDetails extends Component {
                                     </div>
                                 </div>
                                 : <></>
-                        }            
+                        }
                     </div>
                 </div>
             )

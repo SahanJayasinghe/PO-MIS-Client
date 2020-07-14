@@ -4,7 +4,7 @@ import React from 'react';
 function Footer(){
     return(
         <div>
-            <footer className="ftco-footer ftco-section">
+            <footer className="ftco-footer ftco-section ftco-no-pt ftco-no-pb">
       <div className="container">
       	
         <div className="row mb-5">
@@ -13,9 +13,9 @@ function Footer(){
               <h2 className="ftco-heading-2">Post Office MIS</h2>
               <p>One step towords the smart world tommorow</p>
               <ul className="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li className="ftco-animate"><a href="/#"><span className="icon-twitter"></span></a></li>
-                <li className="ftco-animate"><a href="/#"><span className="icon-facebook"></span></a></li>
-                <li className="ftco-animate"><a href="/#"><span className="icon-instagram"></span></a></li>
+                <li className=""><a href="/#"><span className="icon-twitter"></span></a></li>
+                <li className=""><a href="/#"><span className="icon-facebook"></span></a></li>
+                <li className=""><a href="/#"><span className="icon-instagram"></span></a></li>
               </ul>
             </div>
           </div>

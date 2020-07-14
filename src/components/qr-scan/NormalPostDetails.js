@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { handleRequestError } from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class NormalPostDetails extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class NormalPostDetails extends Component {
 
     loadPostDetails = (id) => {
         let header_obj = {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')};
-        axios.get(`http://localhost:5000/normal-post/${id}`, {headers: header_obj})
+        axios.get(`${server_baseURL}/normal-post/${id}`, {headers: header_obj})
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -26,7 +27,7 @@ class NormalPostDetails extends Component {
             .catch(err => {
                 console.log(err);
                 this.setState({post_details: null});
-                handleRequestError(err); 
+                handleRequestError(err);
             })
     }
 
@@ -46,10 +47,10 @@ class NormalPostDetails extends Component {
 
     handleDiscard = (event) => {
         let post_office = localStorage.getItem('user_id');
-        let {id} = this.state;               
+        let {id} = this.state;
         axios({
             method: 'put',
-            url: `http://localhost:5000/normal-post/discard`,
+            url: `${server_baseURL}/normal-post/discard`,
             data: {id, post_office},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
@@ -62,14 +63,14 @@ class NormalPostDetails extends Component {
                 alert('Normal Post discarded. Discarded Letter count incremented');
             })
             .catch(err => {
-                console.log(err);                
-                handleRequestError(err); 
+                console.log(err);
+                handleRequestError(err);
             })
     }
 
     render() {
         console.log('NormalPostDetails Render');
-        console.log(this.state);
+        // console.log(this.state);
 
         if (this.state.post_details){
             let post_office = localStorage.getItem('user_id');
@@ -79,28 +80,28 @@ class NormalPostDetails extends Component {
             return (
                 <div className="col-md-8">
                     <div className="row justify-content-center">
-                        <h3 className="billing-heading d-inline-block">Normal Post</h3>                        
+                        <h3 className="billing-heading d-inline-block">Normal Post</h3>
                     </div>
                     <div className="row cart-detail p-3 p-md-3 ml-4">
                         <span className="d-flex"># On Route Letters: <span className="font-weight-bold ml-2">{on_route_count}</span></span>
                         <span className="d-flex"># Delivered Letters: <span className="font-weight-bold ml-2">{delivered_count}</span></span>
                         <span className="d-flex"># Discarded Letters: <span className="font-weight-bold ml-2">{failed_delivery_count}</span></span>
-                    </div>               
-                    <div className="row mt-3 pt-2">                                       
+                    </div>
+                    <div className="row mt-3 pt-2">
                         <div className="col-md-12 mb-4">
-                            <div className="row justify-content-center">                  
+                            <div className="row justify-content-center">
                                 <div className="col-md-6">
                                     <div className="cart-detail cart-total p-3 p-md-3">
-                                        <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>                                    
+                                        <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>
                                         {
                                             address.map((el, idx) => (
                                                 <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                             ))
-                                        }                                
+                                        }
                                     </div>
-                                </div>                                                        
+                                </div>
                             </div>
-                        </div>                        
+                        </div>
                         {(should_discard) ?
                             <div className="col-md-12">
                                 <div className="row justify-content-center">
@@ -112,7 +113,7 @@ class NormalPostDetails extends Component {
                                 </div>
                             </div>
                             : <></>
-                        }            
+                        }
                     </div>
                 </div>
             )

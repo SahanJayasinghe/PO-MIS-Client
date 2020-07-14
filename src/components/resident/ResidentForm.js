@@ -1,46 +1,47 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 
 class ResidentForm extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             house_number: '',
             postal_code: 'sel_default',
             resident_key: '',
-            area_list: [{code: '11160', name: 'kal-eliya'}, {code: '10400', name: 'moratuwa'}]
+            area_list: []
         }
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/postal-areas', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        axios.get(`${server_baseURL}/postal-areas`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
-                console.log(res);                
+                console.log(res);
                 this.setState({
                     area_list: res.data
-                });                               
+                });
             })
             .catch(err => {
                 console.log(err);
-                handleRequestError(err);                
+                handleRequestError(err);
             })
     }
 
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
-    
+
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
         let {house_number, postal_code, resident_key} = this.state;
         axios({
             method: 'post',
-            url: `http://localhost:5000/resident-details/address`,
+            url: `${server_baseURL}/resident-details/address`,
             data: {number: house_number, postal_code, resident_key},
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
@@ -50,13 +51,13 @@ class ResidentForm extends Component {
             })
             .catch(err => {
                 console.log(err);
-                this.props.loadAddress();                            
+                this.props.loadAddress();
                 handleRequestError(err);
             })
     }
-    
+
     render() {
-        const {house_number, postal_code, resident_key, area_list} = this.state;        
+        const {house_number, postal_code, resident_key, area_list} = this.state;
         return (
             <form onSubmit={this.handleSubmit} className="billing-form">
                 <h3 className="mb-4 billing-heading">Insert Your Address Details</h3>
@@ -64,12 +65,12 @@ class ResidentForm extends Component {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label htmlFor="postcodezip">House Number</label>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 name="house_number"
-                                value={house_number} 
-                                onChange={this.handleInput}                            
-                                className="form-control" 
+                                value={house_number}
+                                onChange={this.handleInput}
+                                className="form-control"
                                 placeholder="Enter house number ex:123/A"
                                 minLength="1"
                                 maxLength="50"
@@ -83,11 +84,11 @@ class ResidentForm extends Component {
                             <label htmlFor="country">Postal Area</label>
                             <div className="select-wrap">
                                 <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                <select 
-                                    name="postal_code"                                 
-                                    value={postal_code} 
+                                <select
+                                    name="postal_code"
+                                    value={postal_code}
                                     onChange={this.handleInput}
-                                    title="Choose a Postal Area" 
+                                    title="Choose a Postal Area"
                                     className="form-control"
                                     required
                                 >
@@ -99,7 +100,7 @@ class ResidentForm extends Component {
                                             </option>
                                             )
                                         )
-                                    }                                                    
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -109,30 +110,30 @@ class ResidentForm extends Component {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label htmlFor="postcodezip">Access Key</label>
-                            <input 
-                                type="password" 
+                            <input
+                                type="password"
                                 name="resident_key"
-                                value={resident_key} 
-                                onChange={this.handleInput}                                
-                                className="form-control" 
+                                value={resident_key}
+                                onChange={this.handleInput}
+                                className="form-control"
                                 placeholder="Enter Access Key"
                                 minLength="1"
-                                maxLength="20"                                                
+                                maxLength="20"
                                 required
                             />
-                        </div>                                        
+                        </div>
                     </div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-md-8">
-                        <div className="form-group mt-4 cart-detail p-3 p-md-3">                                                
+                        <div className="form-group mt-4 cart-detail p-3 p-md-3">
                             {/* <div className="cart-detail p-3 p-md-3"> */}
                                 <button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button>
-                            {/* </div> */}     
+                            {/* </div> */}
                         </div>
                     </div>
                 </div>
-            </form>                        
+            </form>
         )
     }
 }

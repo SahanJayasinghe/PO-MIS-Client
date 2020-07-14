@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-var QR = require('qrcode');
+const QR = require('qrcode');
 
 class QRCode extends Component{
 
@@ -17,14 +17,13 @@ class QRCode extends Component{
         const canvas = document.getElementById('qr');
         let qrData;
         let dt = new Date();
-        let dt_str;
         let date = dt.toLocaleDateString().split('/');
         let time = dt.toTimeString().split(' ');
-        dt_str = `${date[2]}-${date[0]}-${date[1]} ${time[0]}`;
+        let dt_str = `${date[2]}-${date[0]}-${date[1]} ${time[0]}`;
         let id;
 
         if(this.props.type === "NormalPost"){
-            let address_arr = this.props.address;            
+            let address_arr = this.props.address;
             let addressStr = address_arr.slice(1).join(', ');
             // let date = dt.toLocaleDateString().split('/');
             // let time = dt.toTimeString().split(' ');
@@ -34,7 +33,7 @@ class QRCode extends Component{
             qrData = `type=NormalPost_id=${address_arr[0]}_DeliveryAddress=${addressStr}_PostedOn=${dt_str}`;
         }
 
-        else if(this.props.type === "RegPost"){            
+        else if(this.props.type === "RegPost"){
             let receiver = this.props.receiver;
             let sender = this.props.sender;
 
@@ -56,9 +55,9 @@ class QRCode extends Component{
             if (err) {
                 console.log(err.message);
             }
-            else{                                
+            else{
                 console.log('QR code generated');
-            }            
+            }
         });
 
         // const filename = `${this.props.type}_${id} ${dt.toString()}.png`;
@@ -67,7 +66,7 @@ class QRCode extends Component{
             data_url: canvas.toDataURL()
         })
         // this.setState({
-        //     dlbutton: 
+        //     dlbutton:
         //         <div className="col-md-10">
         //             <div className="cart-detail p-3 p-md-3">
         //                 <a href={canvas.toDataURL()} className="btn btn-primary py-3 px-3" download={filename}>Download</a>
@@ -105,7 +104,7 @@ class QRCode extends Component{
                                     <p className="d-flex my-1"> <span className="font-weight-bold mr-2"> 1. </span> Download the QR Code </p>
                                     <p className="d-flex my-1"> <span className="font-weight-bold mr-2"> 2. </span> Print the QR Code </p>
                                     <p className="d-flex my-1"> <span className="font-weight-bold mr-2"> 3. </span> Attach the QR to the cover of the postal item </p>
-                                </div>                                                                                                              
+                                </div>
                             </div>
                         </div>
                         : <></>

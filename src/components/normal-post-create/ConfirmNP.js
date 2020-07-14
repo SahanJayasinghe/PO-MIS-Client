@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 const axios = require('axios');
 
 class ConfirmNP extends Component{
@@ -25,23 +26,23 @@ class ConfirmNP extends Component{
             this.setState({address: this.props.address, price: this.props.price});
         }
     }
-    
+
     handleConfirm = () => {
         let put_obj = {id: this.state.address[0], price: this.state.price};
 
         axios({
             method: 'put',
-            url: 'http://localhost:5000/normal-post',
+            url: `${server_baseURL}/normal-post`,
             data: put_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                
-                this.props.loadQR(this.props.address);                
+                console.log(res);
+                this.props.loadQR(this.props.address);
             })
             .catch(err => {
                 console.log(err);
-                handleRequestError(err); 
+                handleRequestError(err);
             })
         // this.props.loadQR(this.props.address);
     }
@@ -62,16 +63,16 @@ class ConfirmNP extends Component{
                             }
                             {/* <p className="d-flex"> <span>{this.state.number},</span> </p>
                             {
-                                (this.state.street !== null) 
+                                (this.state.street !== null)
                                     ? <p className="d-flex"> <span>{this.state.street},</span> </p>
                                     : <p></p>
                             }
                             {
-                                (this.state.sub_area !== null) 
+                                (this.state.sub_area !== null)
                                     ? <p className="d-flex"> <span>{this.state.sub_area},</span> </p>
                                     : <p></p>
-                            }                            							
-                            <p className="d-flex"> <span>{this.state.postal_area},</span> </p>					
+                            }
+                            <p className="d-flex"> <span>{this.state.postal_area},</span> </p>
                             <p className="d-flex"> <span>{this.state.postal_code}</span> </p> */}
                         </div>
                     </div>
@@ -81,7 +82,7 @@ class ConfirmNP extends Component{
                         </div>
                     </div>
                 </div>
-            </div>				
+            </div>
         )
     }
 }

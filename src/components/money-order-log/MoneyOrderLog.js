@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
 import MoneyOrderTable from './MoneyOrderTable'
+import Poster from '../Poster';
 
 class MoneyOrderLog extends Component {
 
-    render() {        
+    render() {
         if(localStorage.getItem('user_type') === 'post_office'){
-            console.log(localStorage);
+            // console.log(localStorage);
             if(localStorage.getItem('user_token') === "undefined"){
                 alert('Account Token is not found. Try Logging into your account again.');
                 return(
@@ -16,11 +17,12 @@ class MoneyOrderLog extends Component {
             else{
                 let post_office = localStorage.getItem('user_id');
                 return (
-                    <section className="ftco-section ftco-cart">
-                        <div className="container">                
-                            <ul className="nav nav-tabs nav-justified" role="tablist">
-                                <li className="nav-item"><a className="nav-link active" data-toggle="tab" href="#received">Received Money Orders</a></li>
-                                <li className="nav-item"><a className="nav-link" data-toggle="tab" role="tab" href="#sent">Sent Money Orders</a></li>                    
+                    <>
+                        <Poster type="Money Order Log" description="view details of money orders" />
+                        <div className="container">
+                            <ul className="nav nav-tabs nav-justified mt-3" role="tablist">
+                                <li className="nav-item"><a className="nav-link active font-weight-bold" data-toggle="tab" href="#received">Received Money Orders</a></li>
+                                <li className="nav-item"><a className="nav-link font-weight-bold" data-toggle="tab" role="tab" href="#sent">Sent Money Orders</a></li>
                             </ul>
 
                             <div className="tab-content">
@@ -48,7 +50,7 @@ class MoneyOrderLog extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div id="sent" className="tab-pane fade" role="tabpanel">                            
+                                <div id="sent" className="tab-pane fade" role="tabpanel">
                                     <div className="row mt-5">
                                         <div className="col-xl-12">
                                             <div className="bg-dark cart-detail p-3 p-md-3 mb-5">
@@ -74,7 +76,7 @@ class MoneyOrderLog extends Component {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </>
                 )
             }
         }

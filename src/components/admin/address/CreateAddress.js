@@ -3,11 +3,12 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
 import Poster from '../../Poster';
+import { server_baseURL } from '../../../helpers/data';
 
 class CreateAddress extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             number: '',
             street: '',
@@ -19,25 +20,25 @@ class CreateAddress extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/postal-areas', {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        axios.get(`${server_baseURL}/postal-areas`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.setState({
                     area_list: res.data
-                });                               
+                });
             })
             .catch(err => {
                 console.log(err);
-                handleRequestError(err);                
+                handleRequestError(err);
             })
     }
 
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
-    
+
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
@@ -45,17 +46,17 @@ class CreateAddress extends Component {
         let post_obj = {number, street, sub_area, postal_code};
         axios({
             method: 'post',
-            url: 'http://localhost:5000/addresses',
+            url: `${server_baseURL}/addresses`,
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);
-                this.setState({res_data: res.data});                         
+                // console.log(res);
+                this.setState({res_data: res.data});
             })
             .catch(err => {
                 console.log(err);
-                this.setState({res_data: null});              
+                this.setState({res_data: null});
                 handleRequestError(err);
             })
     }
@@ -69,7 +70,7 @@ class CreateAddress extends Component {
                 <Poster type="Address" description="Create a new Address" />
                 <section className="ftco-section">
                     <div className="container">
-                        <div className="row justify-content-center">       
+                        <div className="row justify-content-center">
                             <div className="col-xl-8">
                                 <form onSubmit={this.handleSubmit} className="billing-form">
                                     <h3 className="mb-4 billing-heading">Insert Address Details</h3>
@@ -77,12 +78,12 @@ class CreateAddress extends Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label htmlFor="postcodezip">House Number <span className="text-danger">(*Required)</span></label>
-                                                <input 
-                                                    type="text" 
+                                                <input
+                                                    type="text"
                                                     name="number"
-                                                    value={number} 
-                                                    onChange={this.handleInput}                                
-                                                    className="form-control" 
+                                                    value={number}
+                                                    onChange={this.handleInput}
+                                                    className="form-control"
                                                     placeholder="Enter House Number ex:123/A"
                                                     minLength="1"
                                                     maxLength="50"
@@ -94,12 +95,12 @@ class CreateAddress extends Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label htmlFor="postcodezip">Street <span className="text-info">(Optional)</span></label>
-                                                <input 
-                                                    type="text" 
+                                                <input
+                                                    type="text"
                                                     name="street"
-                                                    value={street} 
-                                                    onChange={this.handleInput}                                
-                                                    className="form-control" 
+                                                    value={street}
+                                                    onChange={this.handleInput}
+                                                    className="form-control"
                                                     placeholder="Enter Street"
                                                     minLength="1"
                                                     maxLength="50"
@@ -112,12 +113,12 @@ class CreateAddress extends Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label htmlFor="postcodezip">Sub Area <span className="text-info">(Optional)</span></label>
-                                                <input 
-                                                    type="text" 
+                                                <input
+                                                    type="text"
                                                     name="sub_area"
-                                                    value={sub_area} 
-                                                    onChange={this.handleInput}                                
-                                                    className="form-control" 
+                                                    value={sub_area}
+                                                    onChange={this.handleInput}
+                                                    className="form-control"
                                                     placeholder="Enter Sub Area"
                                                     minLength="1"
                                                     maxLength="50"
@@ -130,14 +131,14 @@ class CreateAddress extends Component {
                                                 <label htmlFor="country">Postal Area <span className="text-danger">(*Required)</span></label>
                                                 <div className="select-wrap">
                                                     <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                                    <select 
-                                                        name="postal_code"                                 
-                                                        value={postal_code} 
+                                                    <select
+                                                        name="postal_code"
+                                                        value={postal_code}
                                                         onChange={this.handleInput}
-                                                        title="Choose a Postal Area" 
+                                                        title="Choose a Postal Area"
                                                         className="form-control"
                                                         required
-                                                        // dataWidth="auto" 
+                                                        // dataWidth="auto"
                                                         // dataLiveSearch="true"
                                                     >
                                                         <option value="sel_default" disabled>Select a postal area</option>
@@ -148,7 +149,7 @@ class CreateAddress extends Component {
                                                                 </option>
                                                                 )
                                                             )
-                                                        }                                                    
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
@@ -156,10 +157,10 @@ class CreateAddress extends Component {
                                     </div>
                                     <div className="row justify-content-center">
                                         <div className="col-md-8">
-                                            <div className="form-group mt-4 cart-detail p-3 p-md-3">                                                
+                                            <div className="form-group mt-4 cart-detail p-3 p-md-3">
                                                 {/* <div className="cart-detail p-3 p-md-3"> */}
                                                     <button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button>
-                                                {/* </div> */}     
+                                                {/* </div> */}
                                             </div>
                                         </div>
                                     </div>

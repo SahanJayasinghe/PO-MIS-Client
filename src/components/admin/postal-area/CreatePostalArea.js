@@ -3,20 +3,21 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
 import Poster from '../../Poster';
+import { server_baseURL } from '../../../helpers/data';
 
 class CreatePostalArea extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             code: '',
             name: '',
             postal_area: null
         }
     }
-    
+
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
@@ -27,17 +28,17 @@ class CreatePostalArea extends Component {
         let post_obj = {code: this.state.code, name: this.state.name};
         axios({
             method: 'post',
-            url: 'http://localhost:5000/postal-areas',
+            url: `${server_baseURL}/postal-areas`,
             data: post_obj,
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);
-                this.setState({postal_area: res.data});                      
+                // console.log(res);
+                this.setState({postal_area: res.data});
             })
             .catch(err => {
                 console.log(err);
-                this.setState({postal_area: null});              
+                this.setState({postal_area: null});
                 handleRequestError(err);
             })
     }
@@ -50,7 +51,7 @@ class CreatePostalArea extends Component {
                 <Poster type="Postal Area" description="Add a new Postal Area" />
                 <section className="ftco-section">
                     <div className="container">
-                        <div className="row justify-content-center">       
+                        <div className="row justify-content-center">
                             <div className="col-xl-8">
                                 <form onSubmit={this.handleSubmit} className="billing-form">
                                     <h3 className="mb-4 billing-heading">Insert Postal Area Details</h3>
@@ -58,13 +59,13 @@ class CreatePostalArea extends Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label htmlFor="postcodezip">Postal Area Code <span className="text-danger">(*Required)</span></label>
-                                                <input 
-                                                    type="text" 
+                                                <input
+                                                    type="text"
                                                     name="code"
-                                                    value={code} 
-                                                    onChange={this.handleInput}                                
-                                                    className="form-control" 
-                                                    placeholder="Enter 5 digit code ex: 10400"                                                
+                                                    value={code}
+                                                    onChange={this.handleInput}
+                                                    className="form-control"
+                                                    placeholder="Enter 5 digit code ex: 10400"
                                                     pattern = '^\d{5}$'
                                                     required
                                                 />
@@ -73,12 +74,12 @@ class CreatePostalArea extends Component {
                                         <div className="col-md-6">
                                             <div className="form-group">
                                                 <label htmlFor="postcodezip">Postal Area Name <span className="text-danger">(*Required)</span></label>
-                                                <input 
-                                                    type="text" 
+                                                <input
+                                                    type="text"
                                                     name="name"
-                                                    value={name} 
-                                                    onChange={this.handleInput}                                
-                                                    className="form-control" 
+                                                    value={name}
+                                                    onChange={this.handleInput}
+                                                    className="form-control"
                                                     placeholder="Enter Area Name"
                                                     minLength="1"
                                                     maxLength="20"
@@ -89,10 +90,10 @@ class CreatePostalArea extends Component {
                                     </div>
                                     <div className="row justify-content-center">
                                         <div className="col-md-8">
-                                            <div className="form-group mt-4 cart-detail p-3 p-md-3">                                                
+                                            <div className="form-group mt-4 cart-detail p-3 p-md-3">
                                                 {/* <div className="cart-detail p-3 p-md-3"> */}
                                                     <button type="submit" className="btn btn-primary py-3 px-4">Submit Details</button>
-                                                {/* </div> */}     
+                                                {/* </div> */}
                                             </div>
                                         </div>
                                     </div>

@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
 import ReceivedRPLog from './ReceivedRPLog'
 import SentRPLog from './SentRPLog'
-import Navi from '../nav-bar/Navi'
+import Poster from '../Poster';
+// import Navi from '../nav-bar/Navi'
 
 class RPLog extends Component {
     render() {
         if(localStorage.getItem('user_type') === 'post_office'){
-            console.log(localStorage);
+            // console.log(localStorage);
             if(localStorage.getItem('user_token') === "undefined"){
                 alert('Account Token is not found. Try Logging into your account again.');
                 return(
@@ -18,19 +19,20 @@ class RPLog extends Component {
                 return (
                     <>
                     {/* <Navi /> */}
-                    <div className="container">                
-                        <ul className="nav nav-tabs nav-justified" role="tablist">
-                            <li className="nav-item"><a className="nav-link active" data-toggle="tab" href="#received">Received Registered Post</a></li>
-                            <li className="nav-item"><a className="nav-link" data-toggle="tab" role="tab" href="#sent">Sent Registered Post</a></li>                    
+                    <Poster type="Registered Post Log" description="view details of registered posts" />
+                    <div className="container">
+                        <ul className="nav nav-tabs nav-justified mt-3" role="tablist">
+                            <li className="nav-item"><a className="nav-link active font-weight-bold" data-toggle="tab" href="#received">Received Registered Post</a></li>
+                            <li className="nav-item"><a className="nav-link font-weight-bold" data-toggle="tab" role="tab" href="#sent">Sent Registered Post</a></li>
                         </ul>
-        
-                        <div className="tab-content">
+
+                        <div className="tab-content mt-n4">
                             <div id="received" className="tab-pane show active" role="tabpanel">
                                 <ReceivedRPLog />
                             </div>
                             <div id="sent" className="tab-pane fade" role="tabpanel">
                                 <SentRPLog />
-                            </div>                    
+                            </div>
                         </div>
                     </div>
                     </>
@@ -41,7 +43,7 @@ class RPLog extends Component {
             alert('Unauthorized Feature. Only for officials use.');
             return (
                 <Redirect to='/' />
-            )            
+            )
         }
     }
 }

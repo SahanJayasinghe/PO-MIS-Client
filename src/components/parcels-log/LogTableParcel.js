@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import {handleRequestError} from '../../helpers/error_handler';
+import { server_baseURL } from '../../helpers/data';
 const axios = require('axios');
 
 class LogTableParcel extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             t_headers: props.t_headers,
             parcels: []
@@ -15,7 +16,7 @@ class LogTableParcel extends Component {
     componentDidMount(){
         axios({
             method: 'post',
-            url: `http://localhost:5000/post-offices/parcels/${this.props.category}`,
+            url: `${server_baseURL}/post-offices/parcels/${this.props.category}`,
             data: {post_office: localStorage.getItem('user_id'), status: this.props.delivery_status},
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -23,17 +24,17 @@ class LogTableParcel extends Component {
             }
         })
             .then(res => {
-                console.log(res);                
+                console.log(res);
                 this.setState({
                     parcels: res.data
-                });               
+                });
             })
             .catch(err => {
                 console.log(err);
                 handleRequestError(err);
             })
     }
-    
+
     render() {
         let t_head_style = {
             whiteSpace: "nowrap",
@@ -55,27 +56,27 @@ class LogTableParcel extends Component {
                                 {
                                     t_headers.map((t_header, idx) => (
                                         <th key={idx}>{t_header}</th>
-                                    ))                           
+                                    ))
                                 }
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 parcels.map( (parcel, idx) => (
-                                    <tr key={idx} className="text-center">                                                        
+                                    <tr key={idx} className="text-center">
                                         {/* <td><span className="badge badge-pill badge-secondary">View</span></td> */}
-                                        {                                        
+                                        {
                                             parcel.slice(1).map( (el, idx) => (
-                                                ((typeof el === 'string' || typeof el === 'number')) ? <td key={idx} className='product-name'>{el}</td>                                           
-                                                : <td key={idx} className='product-name'>{el[0]}<br/>{el[1]}</td>                                            
+                                                ((typeof el === 'string' || typeof el === 'number')) ? <td key={idx} className='product-name'>{el}</td>
+                                                : <td key={idx} className='product-name'>{el[0]}<br/>{el[1]}</td>
                                             ))
-                                        }                                
+                                        }
                                     </tr>
                                 ))
-                            }                        
+                            }
                         </tbody>
                     </table>
-                </div>        
+                </div>
             )
         }
         else{
@@ -84,7 +85,7 @@ class LogTableParcel extends Component {
                     <small className="text-muted">No registered posts in this category</small>
                 </h5>
             )
-        }    
+        }
     }
 }
 

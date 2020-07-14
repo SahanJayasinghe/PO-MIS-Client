@@ -3,11 +3,13 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
 import ChangePostalArea from './ChangePostalArea';
+import Poster from '../../Poster';
+import { server_baseURL } from '../../../helpers/data';
 
 class PostalAreaLog extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
             province: 'sel_default',
             res_data: null,
@@ -25,26 +27,26 @@ class PostalAreaLog extends Component {
     fetchProvincialPA = (province) => {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/postal-areas/province',
+            url: `${server_baseURL}/postal-areas/province`,
             data: {province},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 this.setState({
                     province,
                     res_data: res.data,
                     modal_show: false
-                });                         
+                });
             })
             .catch(err => {
-                console.log(err);                              
+                console.log(err);
                 handleRequestError(err);
             })
     }
 
     handleProvince = (event) => {
-        this.fetchProvincialPA(event.target.value);        
+        this.fetchProvincialPA(event.target.value);
     }
 
     changeProvince = (code) => {
@@ -57,7 +59,7 @@ class PostalAreaLog extends Component {
         this.toggleModal();
         this.component_ref.current.setValues(event.target.value);
     }
-    
+
     render() {
         if(localStorage.getItem('user_type') === 'admin'){
             let {province, res_data} = this.state;
@@ -65,9 +67,10 @@ class PostalAreaLog extends Component {
             let province_list = ['Western', 'Central', 'Eastern', 'Northern', 'North Central', 'North Western', 'Sabaragamuwa', 'Southern', 'Uva'];
             let key_list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
             let nav_list = ['a', 'e', 'i', 'm', 'q', 'u'];
-            
+
             return (
                 <>
+                <Poster type="Postal Area Log" description="view postal areas in a province" />
                 <section className="ftco-section">
                     <div className="container">
                         <div className="row justify-content-center ftco-cart">
@@ -76,11 +79,11 @@ class PostalAreaLog extends Component {
                                     <div className="text-center">View Postal Areas of the Province</div>
                                     <div className="select-wrap">
                                         <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                        <select 
-                                            name="province"                                 
-                                            value={province} 
+                                        <select
+                                            name="province"
+                                            value={province}
                                             onChange={this.handleProvince}
-                                            title="Choose a Province" 
+                                            title="Choose a Province"
                                             className="form-control"
                                             required
                                         >
@@ -91,7 +94,7 @@ class PostalAreaLog extends Component {
                                                         {province} Province
                                                     </option>
                                                 ))
-                                            }                                       
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -99,14 +102,14 @@ class PostalAreaLog extends Component {
                         </div>
                         <hr />
                         { (view_log) ?
-                            <>  
-                            <div className="row justify-content-end">                            
+                            <>
+                            <div className="row justify-content-end">
                                 <span className="font-weight-bold mr-3 text-success">
                                     &#10004; <span className="text-dark font-weight-normal">- has Postal Account</span>
                                 </span>
                                 <span className="font-weight-bold ml-2 text-danger">
                                     &#10006; <span className="text-dark font-weight-normal">- don't have Postal Account</span>
-                                </span>                            
+                                </span>
                             </div>
                             <div className="row">
                                 <div className="col-md-2 overflow-auto">
@@ -120,7 +123,7 @@ class PostalAreaLog extends Component {
                                             <a className="nav-link" href="#q">Q - T</a>
                                             <a className="nav-link" href="#u">U - Z</a>
                                         {/* </nav> */}
-                                    </nav>                            
+                                    </nav>
                                 </div>
                                 <div className="col-md-10">
                                     <div data-target="#navbar-example3">
@@ -133,14 +136,14 @@ class PostalAreaLog extends Component {
                                                             <h4 className="text-uppercase">{key}</h4>
                                                             <div className="row justify-content-around">
                                                                 { res_data[key].map(postal_area => (
-                                                                    <div key={postal_area.code} className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">                                            
+                                                                    <div key={postal_area.code} className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">
                                                                         <span className="font-weight-bold mr-2 text-capitalize">{postal_area.name}</span>
                                                                         <span className="font-weight-bold mr-2">{postal_area.code}</span>
                                                                         { (postal_area.hasAcc === '1')
                                                                             ? <span className="font-weight-bold mr-2 text-success">&#10004;</span>
                                                                             : <span className="font-weight-bold mr-2 text-danger">&#10006;</span>
 
-                                                                        }                                                                
+                                                                        }
                                                                         <button className="btn btn-sm btn-info px-4" value={`${postal_area.name},${postal_area.code}`} onClick={this.handelEdit}>Edit</button>
                                                                     </div>
                                                                 ))
@@ -148,22 +151,22 @@ class PostalAreaLog extends Component {
                                                             </div>
                                                         </div>
                                                         : <></>
-                                                    }                                                
+                                                    }
                                                 </div>
-                                                :<div key={key}> 
+                                                :<div key={key}>
                                                     { (res_data.hasOwnProperty(key))
                                                         ? <div className="cart-detail cart-total p-2 p-md-2 mt-3 bg-light">
                                                             <h4 className="text-uppercase">{key}</h4>
                                                             <div className="row justify-content-around">
                                                                 { res_data[key].map(postal_area => (
-                                                                    <div key={postal_area.code} className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">                                            
+                                                                    <div key={postal_area.code} className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">
                                                                         <span className="font-weight-bold mr-2 text-capitalize">{postal_area.name}</span>
                                                                         <span className="font-weight-bold mr-2">{postal_area.code}</span>
                                                                         { (postal_area.hasAcc === '1')
                                                                             ? <span className="font-weight-bold mr-2 text-success">&#10004;</span>
                                                                             : <span className="font-weight-bold mr-2 text-danger">&#10006;</span>
 
-                                                                        }                                                                
+                                                                        }
                                                                         <button className="btn btn-sm btn-info px-4" value={`${postal_area.name},${postal_area.code}`} onClick={this.handelEdit}>Edit</button>
                                                                     </div>
                                                                 ))
@@ -172,26 +175,26 @@ class PostalAreaLog extends Component {
                                                             </div>
                                                         </div>
                                                         : <></>
-                                                    } 
+                                                    }
                                                 </div>
                                             ))
                                         }
                                         {/* <div id="list-item-1">
                                             <h4>M</h4>
-                                            <div className="row justify-content-around">                                        
-                                                <div className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">                                            
+                                            <div className="row justify-content-around">
+                                                <div className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">
                                                     <span className="font-weight-bold mr-2">mirigama</span>
                                                     <span className="font-weight-bold mr-2">11200</span>
                                                     <span className="font-weight-bold mr-2 text-success">&#10004;</span>
                                                     <button className="btn btn-sm btn-info px-4">Edit</button>
-                                                </div>                                                                                
-                                                <div className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">                                            
+                                                </div>
+                                                <div className="col-md-4 border-bottom py-2 mr-4 d-flex justify-content-between d-inline-block">
                                                     <span className="font-weight-bold mr-2">mirigama</span>
                                                     <span className="font-weight-bold mr-2">11200</span>
                                                     <button className="btn btn-sm btn-info px-4">Edit</button>
-                                                </div>                                                                                
+                                                </div>
                                             </div>
-                                        </div> */}                                     
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>

@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
+import { server_baseURL } from '../../../helpers/data';
 
 class ChangeAddress extends Component {
 
     constructor(props) {
         super(props)
-        console.log('ChangeAddress Constructor'); 
+        console.log('ChangeAddress Constructor');
         this.state = {
             id: '',
             number: '',
@@ -15,7 +16,7 @@ class ChangeAddress extends Component {
             sub_area: '',
             postal_code: 'sel_default',
             area_list: [],
-        }        
+        }
     }
 
     setValues = (address, area_list) => {
@@ -36,33 +37,33 @@ class ChangeAddress extends Component {
     // }
 
     handleInput = (event) => {
-        this.setState({            
+        this.setState({
             [event.target.name]: event.target.value
         });
     }
-    
+
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
         let {id, number, street, sub_area, postal_code} = this.state;
         axios({
             method: 'put',
-            url: `http://localhost:5000/addresses/${id}`,
+            url: `${server_baseURL}/addresses/${id}`,
             data: {number, street, sub_area, postal_code},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                
+                // console.log(res);
                 this.props.changePostalArea(postal_code);
-                alert(res.data);                        
+                alert(res.data);
             })
             .catch(err => {
                 console.log(err);
-                // this.props.toggle();                              
+                // this.props.toggle();
                 handleRequestError(err);
             })
     }
-    
+
     render() {
         console.log('ChangeAddress Render');
         const {number, street, sub_area, postal_code, area_list} = this.state;
@@ -80,12 +81,12 @@ class ChangeAddress extends Component {
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="postcodezip">House Number</label>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         name="number"
-                                        value={number} 
-                                        onChange={this.handleInput}                                
-                                        className="form-control" 
+                                        value={number}
+                                        onChange={this.handleInput}
+                                        className="form-control"
                                         placeholder="Enter House Number ex:123/A"
                                         minLength="1"
                                         maxLength="50"
@@ -97,12 +98,12 @@ class ChangeAddress extends Component {
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="postcodezip">Street</label>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         name="street"
-                                        value={street} 
-                                        onChange={this.handleInput}                                
-                                        className="form-control" 
+                                        value={street}
+                                        onChange={this.handleInput}
+                                        className="form-control"
                                         placeholder="Enter Street"
                                         minLength="1"
                                         maxLength="50"
@@ -115,12 +116,12 @@ class ChangeAddress extends Component {
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="postcodezip">Sub Area</label>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         name="sub_area"
-                                        value={sub_area} 
-                                        onChange={this.handleInput}                                
-                                        className="form-control" 
+                                        value={sub_area}
+                                        onChange={this.handleInput}
+                                        className="form-control"
                                         placeholder="Enter Sub Area"
                                         minLength="1"
                                         maxLength="50"
@@ -133,25 +134,25 @@ class ChangeAddress extends Component {
                                     <label htmlFor="country">Postal Area</label>
                                     <div className="select-wrap">
                                         <div className="icon"><span className="ion-ios-arrow-down"></span></div>
-                                        <select 
-                                            name="postal_code"                                 
-                                            value={postal_code} 
+                                        <select
+                                            name="postal_code"
+                                            value={postal_code}
                                             onChange={this.handleInput}
-                                            title="Choose a Postal Area" 
+                                            title="Choose a Postal Area"
                                             className="form-control"
                                             required
-                                            // dataWidth="auto" 
+                                            // dataWidth="auto"
                                             // dataLiveSearch="true"
                                         >
                                             <option value="sel_default" disabled>Select a postal area</option>
                                             {
                                                 area_list.map(area => (
-                                                    <option key={area.code} value={area.code}>                                                                                                                
+                                                    <option key={area.code} value={area.code}>
                                                         {area.name}, {area.code}
                                                     </option>
                                                     )
                                                 )
-                                            }                                                    
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -159,15 +160,15 @@ class ChangeAddress extends Component {
                         </div>
                         <div className="row justify-content-center">
                             <div className="col-md-8">
-                                <div className="form-group mt-4 cart-detail p-3 p-md-3">                                                
+                                <div className="form-group mt-4 cart-detail p-3 p-md-3">
                                     {/* <div className="cart-detail p-3 p-md-3"> */}
                                         <button type="submit" className="btn btn-primary py-3 px-4">Confirm Details</button>
-                                    {/* </div> */}     
+                                    {/* </div> */}
                                 </div>
                             </div>
                         </div>
                     </form>
-                </Modal.Body>                
+                </Modal.Body>
             </Modal>
         )
     }

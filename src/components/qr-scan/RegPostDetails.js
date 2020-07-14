@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import { handleRequestError } from '../../helpers/error_handler';
 import RegPostRouteInfo from './RegPostRouteInfo';
+import { server_baseURL } from '../../helpers/data';
 
 class RegPostDetails extends Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class RegPostDetails extends Component {
 
     loadPostDetails = (id) => {
         let header_obj = {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')};
-        axios.get(`http://localhost:5000/registered-post/${id}`, {headers: header_obj})          
+        axios.get(`${server_baseURL}/registered-post/${id}`, {headers: header_obj})
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -35,7 +36,7 @@ class RegPostDetails extends Component {
             .catch(err => {
                 console.log(err);
                 this.setState({post_details: null});
-                handleRequestError(err); 
+                handleRequestError(err);
             })
     }
 
@@ -54,10 +55,10 @@ class RegPostDetails extends Component {
 
     handleUpdate = (event) => {
         let post_office = localStorage.getItem('user_id');
-        let {id} = this.state;       
+        let {id} = this.state;
         axios({
             method: 'put',
-            url: `http://localhost:5000/registered-post/location-update`,
+            url: `${server_baseURL}/registered-post/location-update`,
             data: {id, post_office},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
@@ -74,17 +75,17 @@ class RegPostDetails extends Component {
                 this.component_ref.current.fetchRouteInfo(id);
             })
             .catch(err => {
-                console.log(err);                
-                handleRequestError(err); 
+                console.log(err);
+                handleRequestError(err);
             })
     }
 
     callBackEnd = (endpoint) => {
         let post_office = localStorage.getItem('user_id');
-        let {id} = this.state;               
+        let {id} = this.state;
         axios({
             method: 'put',
-            url: `http://localhost:5000/registered-post/${endpoint}`,
+            url: `${server_baseURL}/registered-post/${endpoint}`,
             data: {id, post_office},
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
@@ -102,8 +103,8 @@ class RegPostDetails extends Component {
                 }
             })
             .catch(err => {
-                console.log(err);                
-                handleRequestError(err); 
+                console.log(err);
+                handleRequestError(err);
             })
     }
 
@@ -114,10 +115,10 @@ class RegPostDetails extends Component {
     handleDiscard = (event) => {
         this.callBackEnd('discard');
     }
-    
+
     render() {
         console.log('RegPostDetails Render');
-        console.log(this.state);
+        // console.log(this.state);
 
         if (this.state.post_details){
             let post_office = localStorage.getItem('user_id');
@@ -125,7 +126,7 @@ class RegPostDetails extends Component {
             let {posted_on, last_location, last_update, attempts_receiver, attempts_sender} = this.state.post_details;
 
             let status_check = (['on-route-receiver', 'on-route-sender'].includes(status[0]));
-            let last_po = last_location.split(',')[1];           
+            let last_po = last_location.split(',')[1];
             let post_office_check = (last_po !== post_office);
             let should_update = (status_check && post_office_check);
             let should_return = (status[0] === 'receiver-unavailable' && attempts_receiver > 0 && receiver[receiver.length - 1] === post_office);
@@ -164,29 +165,29 @@ class RegPostDetails extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="row mt-3 pt-2">                                       
+                    <div className="row mt-3 pt-2">
                         <div className="col-md-12 mb-4">
-                            <div className="row justify-content-center">                  
+                            <div className="row justify-content-center">
                                 <div className="col-md-6">
                                     <div className="cart-detail cart-total p-3 p-md-3">
-                                        <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>                                    
+                                        <h3 className="billing-heading mb-3 text-center">Receiver Address</h3>
                                         {
                                             receiver.map((el, idx) => (
                                                 <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                             ))
-                                        }                                
+                                        }
                                     </div>
-                                </div>                                
+                                </div>
                                 <div className="col-md-6">
                                     <div className="cart-detail cart-total p-3 p-md-3">
-                                        <h3 className="billing-heading mb-3 text-center">Sender Address</h3>                                            
+                                        <h3 className="billing-heading mb-3 text-center">Sender Address</h3>
                                         {
                                             sender.map((el, idx) => (
                                                 <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                             ))
-                                        }                                
+                                        }
                                     </div>
-                                </div>                                                    
+                                </div>
                             </div>
                         </div>
                         {(should_update) ?
@@ -224,7 +225,7 @@ class RegPostDetails extends Component {
                                 </div>
                             </div>
                             : <></>
-                        }            
+                        }
                     </div>
                 </div>
                 <RegPostRouteInfo show={this.state.modal_show} toggle={this.toggleModal} id={this.state.id} ref={this.component_ref} />

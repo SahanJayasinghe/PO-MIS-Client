@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LogTableParcel from './LogTableParcel';
+// import LogTableParcel from './LogTableParcel';
 import LogTable from '../LogTable';
 
 class ReceivedParcelLog extends Component {
@@ -17,22 +17,22 @@ class ReceivedParcelLog extends Component {
                             </div>
                             <br />
                             <h4 className="text-center">Parcels that should be attempted again to deliver</h4>
-                            <LogTable route = {route} delivery_status = {'receiver-unavailable'} post_type={'Parcel'}                                
+                            <LogTable route = {route} delivery_status = {'receiver-unavailable'} post_type={'Parcel'}
                                 t_headers = {["Receiver's Address", "Posted From", 'Latest Delivery Attempt', 'Delivery Attempts']}
                             />
                             <br />
                             <h4 className="text-center">Parcels on route or just received to post office </h4>
-                            <LogTable route = {route} delivery_status = {'on-route-receiver'} post_type={'Parcel'}                             
+                            <LogTable route = {route} delivery_status = {'on-route-receiver'} post_type={'Parcel'}
                                 t_headers = {["Receiver's Address", "Posted From", 'Current Location', 'Last Updated']}
                             />
                             <br />
                             <h4 className="text-center">Parcels delivered to receiver </h4>
-                            <LogTable route = {route} delivery_status = {'delivered'} post_type={'Parcel'}                                
+                            <LogTable route = {route} delivery_status = {'delivered'} post_type={'Parcel'}
                                 t_headers = {["Receiver's Address", "Posted From", 'Delivered On', 'Delivery Attempts']}
                             />
                             <br />
                             <h4 className="text-center">Parcels failed to deliver to receiver </h4>
-                            <LogTable route = {route} delivery_status = {'failed'} post_type={'Parcel'}                                
+                            <LogTable route = {route} delivery_status = {'failed'} post_type={'Parcel'}
                                 t_headers = {["Receiver's Address", "Posted From", 'Last Delivery Attempt', 'Delivery Attempts']}
                             />
                         </div>

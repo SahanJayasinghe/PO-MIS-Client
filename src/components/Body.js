@@ -30,8 +30,7 @@ function Body(){
 			<section id="home-section" className="hero">
 				<div className="col-md-12">
 					<div className="row justify-content-center">
-
-						<img src={postimg} alt=""></img>
+						<img src={postimg} style={{"width": "85%"}} alt=""></img>
 				{/* <div className="hero-wrap hero-bread" style={img}> */}
 					{/* <div className="container">
 					<div className="row no-gutters slider-text align-items-center justify-content-center">

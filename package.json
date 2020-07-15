@@ -2,6 +2,7 @@
   "name": "client-api",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "engines": {
     "node": "12.16.1",
     "npm": "6.13.4"

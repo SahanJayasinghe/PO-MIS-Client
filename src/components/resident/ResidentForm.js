@@ -6,6 +6,8 @@ import { server_baseURL } from '../../helpers/data';
 class ResidentForm extends Component {
     constructor(props) {
         super(props)
+        console.log(`REACT_APP_PO_MIS_SERVER: ${process.env.REACT_APP_PO_MIS_SERVER}`);
+        console.log(`server_baseURL: ${server_baseURL}`);
 
         this.state = {
             house_number: '',

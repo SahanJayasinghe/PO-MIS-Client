@@ -63,7 +63,7 @@ class ConfirmParcel extends Component {
                     <div className="col-md-10 d-flex mb-4">
                         <div className="cart-detail cart-total p-3 p-md-4">
                             <h3 className="billing-heading mb-3 text-center">Delivery Address</h3>
-                            <p className="d-flex"> <span>{receiver_name},</span> </p>
+                            <p className="d-flex font-weight-bold"> <span>{receiver_name},</span> </p>
                             {
                                 address.slice(1).map((el, idx) => (
                                     <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>

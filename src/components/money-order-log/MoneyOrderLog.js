@@ -19,7 +19,7 @@ class MoneyOrderLog extends Component {
                 return (
                     <>
                         <Poster type="Money Order Log" description="view details of money orders" />
-                        <div className="container">
+                        <div className="container pb-5">
                             <ul className="nav nav-tabs nav-justified mt-3" role="tablist">
                                 <li className="nav-item"><a className="nav-link active font-weight-bold" data-toggle="tab" href="#received">Received Money Orders</a></li>
                                 <li className="nav-item"><a className="nav-link font-weight-bold" data-toggle="tab" role="tab" href="#sent">Sent Money Orders</a></li>

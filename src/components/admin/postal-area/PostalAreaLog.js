@@ -5,6 +5,7 @@ import {handleRequestError} from '../../../helpers/error_handler';
 import ChangePostalArea from './ChangePostalArea';
 import Poster from '../../Poster';
 import { server_baseURL } from '../../../helpers/data';
+import { toast } from 'react-toastify';
 
 class PostalAreaLog extends Component {
     constructor(props) {
@@ -212,6 +213,7 @@ class PostalAreaLog extends Component {
             )
         }
         else{
+            toast.warning('Unauthorized Feature. Only for admin use.');
             return (
                 <Redirect to='/' />
             )

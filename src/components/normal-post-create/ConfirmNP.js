@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 const axios = require('axios');
 
 class ConfirmNP extends Component{
@@ -38,6 +39,7 @@ class ConfirmNP extends Component{
         })
             .then(res => {
                 console.log(res);
+                toast.success('Normal Post added successfully!');
                 this.props.loadQR(this.props.address);
             })
             .catch(err => {

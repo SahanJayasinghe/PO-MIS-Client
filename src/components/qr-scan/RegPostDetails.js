@@ -146,17 +146,17 @@ class RegPostDetails extends Component {
                     <div className="row justify-content-around">
                         <div className="col-md-8">
                             <div className="cart-detail p-3 p-md-3 ml-4">
-                                <span className="row d-flex"> Delivery Status :<span className="font-weight-bold ml-2"> {status[1]} </span> </span>
-                                <span className="row d-flex"> Last Updated At :<span className="font-weight-bold ml-2"> {`${last_update}  ${last_location}`} </span> </span>
+                                <span className="row d-flex text-body"> Delivery Status :<span className="font-weight-bold ml-2"> {status[1]} </span> </span>
+                                <span className="row d-flex text-body"> Last Updated At :<span className="font-weight-bold ml-2"> {`${last_update}  ${last_location}`} </span> </span>
                                 { (status[0] !== 'on-route-receiver')
-                                    ? <span className="row d-flex"> # Delivery Attempts to Receiver :<span className="font-weight-bold ml-2"> {attempts_receiver} </span> </span>
+                                    ? <span className="row d-flex text-body"> # Delivery Attempts to Receiver :<span className="font-weight-bold ml-2"> {attempts_receiver} </span> </span>
                                     : <></>
                                 }
                                 { ( ['sender-unavailable', 'sent-back', 'failed'].includes(status[0]) )
-                                    ? <span className="row d-flex"> # Delivery Attempts to Sender :<span className="font-weight-bold ml-2"> {attempts_sender} </span> </span>
+                                    ? <span className="row d-flex text-body"> # Delivery Attempts to Sender :<span className="font-weight-bold ml-2"> {attempts_sender} </span> </span>
                                     : <></>
                                 }
-                                <span className="row d-flex"> Posted At :<span className="font-weight-bold ml-2"> {posted_on} </span> </span>
+                                <span className="row d-flex text-body"> Posted At :<span className="font-weight-bold ml-2"> {posted_on} </span> </span>
                             </div>
                         </div>
                         <div className="col-md-4 my-3">

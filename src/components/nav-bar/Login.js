@@ -3,6 +3,8 @@ import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import ErrorModal from '../ErrorModal';
+import { toast } from 'react-toastify';
 
 class Login extends Component {
 
@@ -15,9 +17,16 @@ class Login extends Component {
             postal_code: '',
             post_office_pw: '',
             username: '',
-            admin_pw: ''
+            admin_pw: '',
+            // err_modal_show: false,
+            // err_type: null,
+            // err_msg: null
         }
     }
+
+    // toggleErrModal = () => {
+    //     this.setState({ err_modal_show: false, err_type: null, err_msg: null });
+    // }
 
     handleInput = (event) => {
         this.setState({
@@ -51,11 +60,14 @@ class Login extends Component {
                     admin_pw: ''
                 });
                 this.props.toggle();
+                toast.success(`Successfully logged in to Postal Account of ${res.data.postal_area}`);
                 this.props.handleLogin('post_office', this.state.postal_code);
             })
             .catch(err => {
                 console.log(err);
                 handleRequestError(err);
+                // let {err_type, err_msg} = handleRequestError(err);
+                // this.setState({ err_modal_show: true, err_type, err_msg });
             })
     }
 
@@ -85,6 +97,7 @@ class Login extends Component {
                     admin_pw: ''
                 });
                 this.props.toggle();
+                toast.success(`Successfully logged in as Admin ${res.data.username}`);
                 this.props.handleLogin('admin', res.data.username);
             })
             .catch(err => {
@@ -98,7 +111,8 @@ class Login extends Component {
         const {postal_code, post_office_pw, username, admin_pw} = this.state;
 
         return (
-            // <div className="modal fade" ref={this.modal_ref} id="modalLoginForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <>
+            {/* <div className="modal fade" ref={this.modal_ref} id="modalLoginForm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> */}
             <Modal show={this.props.show} onHide={this.props.toggle}>
                 {/* <div className="modal-header text-center"> */}
                 <Modal.Header>
@@ -186,7 +200,9 @@ class Login extends Component {
                 </Modal.Body>
                 {/* </div> */}
             </Modal>
-			// </div>
+            {/* </div> */}
+            {/* <ErrorModal show={err_modal_show} err_type={err_type} err_msg={err_msg} toggleErrModal={this.toggleErrModal} /> */}
+            </>
         )
     }
 }

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import postimg from '../images/sl_post_new_1.png';
+import { Carousel} from 'react-bootstrap';
+import postimg from '../images/sl_post_rsz.png';
+import deliveryimg from '../images/delivery_rsz.png';
+import qrscanimg from '../images/qrscan_rsz.png';
 import rpimg from '../images/6.png';
 import npimg from '../images/5.jpg';
 import parcelimg from '../images/4.png';
@@ -24,13 +27,16 @@ function Body(){
 	const moneyord = {
 		backgroundImage: `url(${moimg})`
 	}
+	const imgStyle = {
+		height: "600px"
+	}
 
     return(
         <React.Fragment>
 			<section id="home-section" className="hero">
-				<div className="col-md-12">
-					<div className="row justify-content-center">
-						<img src={postimg} style={{"width": "85%"}} alt=""></img>
+				<div className="col-md-12 mb-3">
+					{/* <div className="row justify-content-center">
+						<img src={postimg} style={{"width": "85%"}} alt=""></img> */}
 				{/* <div className="hero-wrap hero-bread" style={img}> */}
 					{/* <div className="container">
 					<div className="row no-gutters slider-text align-items-center justify-content-center">
@@ -39,7 +45,45 @@ function Body(){
 						</div>
 					</div>
 					</div> */}
-					</div>
+					{/* </div> */}
+					<Carousel pause="false">
+						<Carousel.Item>
+							<img
+								className="d-block w-100"
+								src={postimg}
+								alt="First slide"
+								// style={imgStyle}
+							/>
+							<Carousel.Caption>
+								{/* <h3>First slide label</h3> */}
+								<h5 className="text-dark">Centralized Management of Postal Services</h5>
+							</Carousel.Caption>
+						</Carousel.Item>
+						<Carousel.Item>
+							<img
+								className="d-block w-100"
+								src={deliveryimg}
+								alt="Second slide"
+								// style={imgStyle}
+							/>
+							<Carousel.Caption>
+								{/* <h3>Second slide label</h3> */}
+								<h5 className="text-dark">Our Customer is Our Priority</h5>
+							</Carousel.Caption>
+						</Carousel.Item>
+						<Carousel.Item>
+							<img
+								className="d-block w-100"
+								src={qrscanimg}
+								alt="Third slide"
+								// style={imgStyle}
+							/>
+							<Carousel.Caption>
+								{/* <h3>Third slide label</h3> */}
+								<h5 className="text-dark">Delivery Made Simple With QR Attachment</h5>
+							</Carousel.Caption>
+						</Carousel.Item>
+					</Carousel>
 				</div>
 			</section>
 			<section className="ftco-section ftco-category ftco-no-pt">

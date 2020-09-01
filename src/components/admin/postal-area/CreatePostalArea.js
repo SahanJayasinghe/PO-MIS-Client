@@ -4,6 +4,7 @@ import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
 import Poster from '../../Poster';
 import { server_baseURL } from '../../../helpers/data';
+import { toast } from 'react-toastify';
 
 class CreatePostalArea extends Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class CreatePostalArea extends Component {
         })
             .then(res => {
                 // console.log(res);
+                toast.success('Postal Area record created!');
                 this.setState({postal_area: res.data});
             })
             .catch(err => {
@@ -119,6 +121,7 @@ class CreatePostalArea extends Component {
             )
         }
         else{
+            toast.warning('Unauthorized Feature. Only for admin use.');
             return (
                 <Redirect to='/' />
             )

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 
 class MoneyOrderForm extends Component {
     constructor(props) {
@@ -65,6 +66,7 @@ class MoneyOrderForm extends Component {
         })
             .then(res => {
                 // console.log(res);
+                toast.success('Money Order record created!');
                 this.props.loadDetails(res.data);
             })
             .catch(err => {

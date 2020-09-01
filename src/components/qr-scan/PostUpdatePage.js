@@ -6,6 +6,7 @@ import Poster from '../Poster';
 import RegPostDetails from './RegPostDetails';
 import ParcelDetails from './ParcelDetails';
 import NormalPostDetails from './NormalPostDetails';
+import { toast } from 'react-toastify';
 
 class PostUpdatePage extends Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class PostUpdatePage extends Component {
             )
         }
         else{
-            alert('Unauthorized Feature. Only for officials use.');
+            toast.warning('Unauthorized Feature. Only for officials use.');
             return (
                 <Redirect to='/' />
             )

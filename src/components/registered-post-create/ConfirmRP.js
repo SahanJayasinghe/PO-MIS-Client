@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 const axios = require('axios');
 
 class ConfirmRP extends Component {
@@ -54,6 +55,7 @@ class ConfirmRP extends Component {
         })
             .then(res => {
                 console.log(res);
+                toast.success('Registered Post record created!');
                 this.props.loadQR(res.data, this.state.receiver, this.state.sender);
             })
             .catch(err => {

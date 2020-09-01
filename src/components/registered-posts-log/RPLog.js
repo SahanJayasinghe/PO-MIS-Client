@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import ReceivedRPLog from './ReceivedRPLog'
 import SentRPLog from './SentRPLog'
 import Poster from '../Poster';
+import { toast } from 'react-toastify';
 // import Navi from '../nav-bar/Navi'
 
 class RPLog extends Component {
@@ -10,7 +11,7 @@ class RPLog extends Component {
         if(localStorage.getItem('user_type') === 'post_office'){
             // console.log(localStorage);
             if(localStorage.getItem('user_token') === "undefined"){
-                alert('Account Token is not found. Try Logging into your account again.');
+                toast.warning('Account Token is not found. Try Logging into your account again.');
                 return(
                     <h4 className="text-center">Could not retreive Registered Post Log</h4>
                 )
@@ -40,7 +41,7 @@ class RPLog extends Component {
             }
         }
         else{
-            alert('Unauthorized Feature. Only for officials use.');
+            toast.warning('Unauthorized Feature. Only for officials use.');
             return (
                 <Redirect to='/' />
             )

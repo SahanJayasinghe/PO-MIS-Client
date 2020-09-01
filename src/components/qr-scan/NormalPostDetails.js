@@ -83,9 +83,9 @@ class NormalPostDetails extends Component {
                         <h3 className="billing-heading d-inline-block">Normal Post</h3>
                     </div>
                     <div className="row cart-detail p-3 p-md-3 ml-4">
-                        <span className="d-flex"># On Route Letters: <span className="font-weight-bold ml-2">{on_route_count}</span></span>
-                        <span className="d-flex"># Delivered Letters: <span className="font-weight-bold ml-2">{delivered_count}</span></span>
-                        <span className="d-flex"># Discarded Letters: <span className="font-weight-bold ml-2">{failed_delivery_count}</span></span>
+                        <span className="d-flex text-body"># On Route Letters: <span className="font-weight-bold ml-2">{on_route_count}</span></span>
+                        <span className="d-flex text-body"># Delivered Letters: <span className="font-weight-bold ml-2">{delivered_count}</span></span>
+                        <span className="d-flex text-body"># Discarded Letters: <span className="font-weight-bold ml-2">{failed_delivery_count}</span></span>
                     </div>
                     <div className="row mt-3 pt-2">
                         <div className="col-md-12 mb-4">

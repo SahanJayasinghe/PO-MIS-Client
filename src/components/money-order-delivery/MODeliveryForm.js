@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 
 class MODeliveryForm extends Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class MODeliveryForm extends Component {
         })
             .then(res => {
                 console.log(res);
+                toast.info('Money Order Validation succeeded!');
                 this.props.loadDetails(res.data, this.state.secret_key);
             })
             .catch(err => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../../custom_styles/checkboxstyle.css'
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 const axios = require('axios');
 
 class AddressFormRP extends Component {
@@ -82,6 +83,10 @@ class AddressFormRP extends Component {
         })
             .then(res => {
                 console.log(res);
+                toast.info(
+                    'Please Scroll Down & Confirm addresses of Sender & Receiver to create a registered post record.',
+                    {position: toast.POSITION.BOTTOM_CENTER}
+                );
                 this.props.loadConfirmation(res.data, rp_details);
             })
             .catch(err => {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import ErrorModal from '../ErrorModal';
+import { toast } from 'react-toastify';
 const axios = require('axios');
 
 class AddressFormNP extends Component{
@@ -12,21 +14,31 @@ class AddressFormNP extends Component{
             house_number: '',
             postal_code: 'sel_default',
             price: '',
-            area_list: []
+            area_list: [],
+            // err_modal_show: false,
+            // err_type: null,
+            // err_msg: null
         };
     }
+    
+    // toggleErrModal = () => {
+    //     this.setState({ err_modal_show: false, err_type: null, err_msg: null });
+    // }
 
     componentDidMount(){
         axios.get(`${server_baseURL}/postal-areas`, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
             .then(res => {
                 console.log(res);
                 this.setState({
-                    area_list: res.data
+                    area_list: res.data,
+                    err_modal_show: false
                 });
             })
             .catch(err => {
                 console.log(err);
                 handleRequestError(err);
+                // let {err_type, err_msg} = handleRequestError(err);
+                // this.setState({ err_modal_show: true, err_type, err_msg });
             })
     }
 
@@ -83,12 +95,15 @@ class AddressFormNP extends Component{
         })
             .then(res => {
                 console.log(res);
+                toast.info('Confirm the delivery address to initiate a Normal Post Record');
                 this.props.loadConfirmation(res.data, this.state.price);
             })
             .catch(err => {
                 console.log(err);
                 this.props.loadConfirmation();
                 handleRequestError(err);
+                // let {err_type, err_msg} = handleRequestError(err);
+                // this.setState({ err_modal_show: true, err_type, err_msg });
             })
     }
 
@@ -99,6 +114,7 @@ class AddressFormNP extends Component{
     render(){
         const {house_number, postal_code, price, area_list} = this.state;
         return(
+            <>
             <form onSubmit={this.handleSubmit} className="billing-form">
                 <h3 className="mb-4 billing-heading">Fill in Letter Details</h3>
                 <div className="col-md-8">
@@ -186,6 +202,8 @@ class AddressFormNP extends Component{
                     </div>
                 </div>
             </form>
+            {/* <ErrorModal show={err_modal_show} err_type={err_type} err_msg={err_msg} toggleErrModal={this.toggleErrModal} /> */}
+            </>
         );
     }
 }

@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 
 class ConfirmParcel extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
             receiver_name: props.receiver_name,
             address: props.address
@@ -45,16 +46,17 @@ class ConfirmParcel extends Component {
             headers: {'X-Requested-With': 'XMLHttpRequest', 'x-auth-token': localStorage.getItem('user_token')}
         })
             .then(res => {
-                console.log(res);                
-                this.props.loadQR(res.data, this.state.address);             
+                console.log(res);
+                toast.success('Parcel Post record created!');
+                this.props.loadQR(res.data, this.state.address);
             })
             .catch(err => {
                 console.log(err);
-                handleRequestError(err); 
+                handleRequestError(err);
             })
         // this.props.loadQR(this.props.address);
     }
-    
+
     render() {
         let {receiver_name, address} = this.state;
         return (
@@ -68,7 +70,7 @@ class ConfirmParcel extends Component {
                                 address.slice(1).map((el, idx) => (
                                     <p key={idx} className="d-flex font-weight-bold"> <span>{el},</span> </p>
                                 ))
-                            }								
+                            }
                         </div>
                     </div>
                     <div className="col-md-10">

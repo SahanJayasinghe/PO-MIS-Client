@@ -5,6 +5,7 @@ import ResidentRPLog from './ResidentRPLog'
 import ResidentParcelLog from './ResidentParcelLog'
 import ResidentNPLog from './ResidentNPLog'
 import Poster from '../Poster'
+import { toast } from 'react-toastify'
 
 class ResidentPage extends Component {
     constructor(props) {
@@ -113,7 +114,7 @@ class ResidentPage extends Component {
             )
         }
         else {
-            alert('Only for the use of residents');
+            toast.warning('Only for the use of residents');
             return (
                 <Redirect to='/' />
             )

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
 import MoneyOrderTable from './MoneyOrderTable'
 import Poster from '../Poster';
+import { toast } from 'react-toastify';
 
 class MoneyOrderLog extends Component {
 
@@ -9,7 +10,7 @@ class MoneyOrderLog extends Component {
         if(localStorage.getItem('user_type') === 'post_office'){
             // console.log(localStorage);
             if(localStorage.getItem('user_token') === "undefined"){
-                alert('Account Token is not found. Try Logging into your account again.');
+                toast.warning('Account Token is not found. Try Logging into your account again.');
                 return(
                     <h4 className="text-center">Could not retreive Money Order Log</h4>
                 )
@@ -81,7 +82,7 @@ class MoneyOrderLog extends Component {
             }
         }
         else{
-            alert('Unauthorized Feature. Only for officials use.');
+            toast.warning('Unauthorized Feature. Only for officials use.');
             return (
                 <Redirect to='/' />
             )

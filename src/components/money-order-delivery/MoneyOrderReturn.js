@@ -5,6 +5,7 @@ import MODeliveryForm from './MODeliveryForm'
 import {handleRequestError} from '../../helpers/error_handler';
 import Poster from '../Poster';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 
 class MoneyOrderReturn extends Component {
     constructor(props) {
@@ -113,7 +114,7 @@ class MoneyOrderReturn extends Component {
             )
         }
         else{
-            alert('Unauthorized Feature. Only for officials use.');
+            toast.warning('Unauthorized Feature. Only for officials use.');
             return (
                 <Redirect to='/' />
             )

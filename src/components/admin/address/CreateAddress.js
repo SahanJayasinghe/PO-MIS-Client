@@ -4,6 +4,7 @@ import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
 import Poster from '../../Poster';
 import { server_baseURL } from '../../../helpers/data';
+import { toast } from 'react-toastify';
 
 class CreateAddress extends Component {
     constructor(props) {
@@ -52,6 +53,7 @@ class CreateAddress extends Component {
         })
             .then(res => {
                 // console.log(res);
+                toast.success('Address record created!');
                 this.setState({res_data: res.data});
             })
             .catch(err => {
@@ -187,6 +189,7 @@ class CreateAddress extends Component {
             )
         }
         else{
+            toast.warning('Unauthorized Feature. Only for admin use.');
             return (
                 <Redirect to='/' />
             )

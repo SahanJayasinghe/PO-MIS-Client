@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 
 class ResidentForm extends Component {
     constructor(props) {
         super(props)
-        console.log(`REACT_APP_PO_MIS_SERVER: ${process.env.REACT_APP_PO_MIS_SERVER}`);
-        console.log(`server_baseURL: ${server_baseURL}`);
 
         this.state = {
             house_number: '',
@@ -49,6 +48,7 @@ class ResidentForm extends Component {
         })
             .then(res => {
                 console.log(res);
+                toast.info('Address Validation succeeded!');
                 this.props.loadAddress(res.data, resident_key);
             })
             .catch(err => {

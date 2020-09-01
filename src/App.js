@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Navi from './components/nav-bar/Navi';
 import Upperline from './components/UpperLine';
@@ -71,7 +73,7 @@ class App extends Component{
                 <div className='App'>
                     <Upperline/>
                     <Navi handleLogin={this.handleLogin} handleLogout={this.handleLogout}/>
-
+                    <ToastContainer />
                     <Switch>
                         <Route exact path="/">
                             <Body />

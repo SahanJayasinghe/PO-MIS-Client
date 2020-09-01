@@ -5,6 +5,7 @@ import {handleRequestError} from '../../../helpers/error_handler';
 import { server_baseURL } from '../../../helpers/data';
 import ChangeAddress from './ChangeAddress';
 import Poster from '../../Poster';
+import { toast } from 'react-toastify';
 
 class AddressLog extends Component {
     constructor(props) {
@@ -171,6 +172,7 @@ class AddressLog extends Component {
             )
         }
         else{
+            toast.warning('Unauthorized Feature. Only for admin use.');
             return (
                 <Redirect to='/' />
             )

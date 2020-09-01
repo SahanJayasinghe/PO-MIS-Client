@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 import {handleRequestError} from '../../../helpers/error_handler';
 import { server_baseURL } from '../../../helpers/data';
+import { toast } from 'react-toastify';
 
 class ChangePostalArea extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class ChangePostalArea extends Component {
             .then(res => {
                 // console.log(res);
                 this.props.changeProvince(code);
-                alert(res.data);
+                toast.info(res.data);
             })
             .catch(err => {
                 console.log(err);

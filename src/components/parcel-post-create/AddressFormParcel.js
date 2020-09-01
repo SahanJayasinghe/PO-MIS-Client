@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import {handleRequestError} from '../../helpers/error_handler';
 import { server_baseURL } from '../../helpers/data';
+import { toast } from 'react-toastify';
 
 class AddressFormParcel extends Component {
 
@@ -66,6 +67,7 @@ class AddressFormParcel extends Component {
         })
             .then(res => {
                 console.log(res);
+                toast.info('Confirm the receiver address to initiate the parcel record');
                 this.props.loadConfirmation(res.data, this.state.receiver_name, this.state.payment, this.state.descript);
             })
             .catch(err => {
